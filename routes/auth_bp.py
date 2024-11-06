@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, session, redirect
+from flask import Blueprint, render_template, request, redirect
+from flask_login import login_user
 from models import *
 
 
@@ -16,7 +17,7 @@ def login():
     user = User.query.filter_by(email=email).first()
     if user:
       if user.password == password:
-        session['logged_in'] = True
+        login_user(user)
         return redirect('/')
       return render_template('login.html', error=True)
     return render_template('login.html', error=True)

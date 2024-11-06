@@ -24,13 +24,13 @@ def create_app():
     populate_db.populate()
 
   # setup flask login
+  login_manager = LoginManager()
+  login_manager.init_app(app)
+
   @login_manager.user_loader
   def load_user(user_id):
     """ take user_id and return the corresponding user object """
     return User.query.filter_by(id=user_id).first()
-
-  login_manager = LoginManager()
-  login_manager.init_app(app)
 
   return app
 
