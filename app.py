@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_login import LoginManager
-from routes import root_bp, auth_bp
+from routes import root_bp, auth_bp, admin_bp, customer_bp, professional_bp
 from models import *
 import populate_db
 
@@ -13,6 +13,9 @@ def create_app():
   # register blueprints
   app.register_blueprint(root_bp)
   app.register_blueprint(auth_bp)
+  app.register_blueprint(admin_bp)
+  app.register_blueprint(customer_bp)
+  app.register_blueprint(professional_bp)
 
   # setup database
   app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'

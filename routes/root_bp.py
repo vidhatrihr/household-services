@@ -8,11 +8,11 @@ root_bp = Blueprint('root', __name__)
 def root():
   if current_user.is_authenticated:
     if current_user.type == 'admin':
-      return render_template('admin_home.html')
+      return redirect('/admin/home')
 
     elif current_user.type == 'customer':
-      return render_template('customer_home.html')
+      return redirect('/customer/home')
 
     elif current_user.type == 'professional':
-      return render_template('professional_home.html')
+      return redirect('/professional/home')
   return redirect('/login')
