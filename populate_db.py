@@ -48,9 +48,9 @@ def populate():
       Service(name='Heater setup'),
       Service(name='Pipe leakage')
   ]))
-#   db.session.add(ServiceCategory(name='Cleaning services', services=[
-#       Service(name='Bathroom cleaning'),
-#       Service(name='Kitchen cleaning'),
-#       Service(name='Full home cleaning')
-#   ]))
+  db.session.add(ServiceCategory(name='Cleaning services', services=[
+      Service(name='Bathroom cleaning'),
+      Service(name='Kitchen cleaning'),
+      Service(name='Full home cleaning')
+  ]))
   db.session.commit()

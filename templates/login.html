@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+        color: red;
+      }
+
+      form {
+        padding: 20px;
+        border: 2px solid #333;
+        border-radius: 10px;
+      }
+
+      div {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Please Login</h1>
+
+      {% if error %}
+      <p>Email or password do not match</p>
+      {% endif %}
+
+      <form action="/login" method="post">
+        <div>
+          <label>
+            Email:
+            <input type="email" name="email" />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Password:
+            <input type="password" name="password" />
+          </label>
+        </div>
+
+        <div>
+          <input type="submit" value="Login" />
+        </div>
+
+        Don't have an account? <a href="/register">Register</a>
+      </form>
+    </main>
+  </body>
+</html>
