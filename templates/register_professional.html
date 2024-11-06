@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register as a professional</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+        color: red;
+      }
+
+      form {
+        padding: 20px;
+        border: 2px solid #333;
+        border-radius: 10px;
+      }
+
+      div {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Register as a professional</h1>
+
+      <form action="/register/professional" method="post">
+        <div>
+          <label>
+            Email:
+            <input type="email" name="email" />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Password:
+            <input type="password" name="password" />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Full name:
+            <input type="text" name="full_name" />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            City:
+            <select name="city_id">
+              <option value="1">hbh</option>
+              <option value="2">albd</option>
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Address:
+            <input type="text" name="address" />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Pin code:
+            <input type="text" name="pin_code" />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Service category:
+            <select name="service_category_id">
+              <option value="1">Plumbing services</option>
+              <option value="2">Cleaning services</option>
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Bio:
+            <input type="text" name="bio" />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Resume:
+            <input type="file" name="resume" />
+          </label>
+        </div>
+
+        <div>
+          <input type="submit" value="Register as a professional" />
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

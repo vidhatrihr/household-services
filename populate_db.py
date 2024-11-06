@@ -7,7 +7,7 @@ def populate():
       user=User(
           email='admin1@example.com',
           password='12345',
-          type='customer',
+          type='admin',
           full_name='admin 1',
           address='xyz address',
           pin_code='123456',
