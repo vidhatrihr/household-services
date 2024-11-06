@@ -1,11 +1,12 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
   __tablename__ = 'users'
   id = Column(Integer, primary_key=True, autoincrement=True)
   email = Column(String, unique=True)

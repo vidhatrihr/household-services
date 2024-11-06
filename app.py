@@ -1,6 +1,7 @@
 from flask import Flask
+from flask_login import LoginManager
 from routes import root_bp, auth_bp
-from models import db
+from models import *
 import populate_db
 
 
@@ -21,6 +22,15 @@ def create_app():
   with app.app_context():
     db.create_all()
     populate_db.populate()
+
+  # setup flask login
+  @login_manager.user_loader
+  def load_user(user_id):
+    """ take user_id and return the corresponding user object """
+    return User.query.filter_by(id=user_id).first()
+
+  login_manager = LoginManager()
+  login_manager.init_app(app)
 
   return app
 
