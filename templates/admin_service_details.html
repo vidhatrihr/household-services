@@ -1,0 +1,40 @@
+{% extends "_base.html" %}
+
+<!-- -->
+{% block title %} Home {% endblock title %}
+
+<!-- -->
+{% block content %}
+<h1>Details of Service #{{service.id}}</h1>
+
+<section>
+  <h2>Service Details</h2>
+  <p>Name: {{service.name}}</p>
+  <p>Category: {{service.service_category.name}}</p>
+  <p>Price: {{service.price}}</p>
+</section>
+
+<section>
+  <h2>Service Requests</h2>
+  <table border="1">
+    <tr>
+      <th>#</th>
+      <th>Customer ID</th>
+      <th>Professional ID</th>
+      <th>Status</th>
+      <th>Ratings</th>
+      <th>Remarks</th>
+    </tr>
+    {% for request in service.service_requests %}
+    <tr>
+      <td>{{loop.index}}</td>
+      <td>{{request.customer_id}}</td>
+      <td>{{request.professional.id}}</td>
+      <td>{{request.status}}</td>
+      <td>{{request.ratings}}</td>
+      <td>{{request.remarks}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</section>
+{% endblock content %}

@@ -77,6 +77,7 @@ def populate():
   db.session.add(ServiceRequest(
       customer_id=1,
       service_id=1,
+      professional_id=1,
       booking_date=datetime.now(),
   ))
   db.session.add(ServiceRequest(

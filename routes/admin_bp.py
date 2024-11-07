@@ -4,6 +4,22 @@ from models import *
 admin_bp = Blueprint('admin', __name__)
 
 
+@admin_bp.route('/admin/service-details/<int:service_id>')
+def admin_service_details(service_id):
+  service = Service.query.filter_by(id=service_id).first()
+  return render_template('admin_service_details.html', service=service)
+
+
+@admin_bp.route('/admin/professional-details/<int:professional_id>')
+def admin_professional_details(professional_id):
+  professional = Professional.query.filter_by(id=professional_id).first()
+  ratings = [request.ratings for request in professional.service_requests]
+  avg_ratings = 0.0
+  if ratings:
+    avg_ratings = sum(ratings)/len(ratings)
+  return render_template('admin_professional_details.html', professional=professional, avg_ratings=avg_ratings)
+
+
 @admin_bp.route('/admin/delete-professional/<int:professional_id>')
 def delete_professional(professional_id):
   professional = Professional.query.filter_by(id=professional_id).first()

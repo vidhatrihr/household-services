@@ -27,7 +27,7 @@ class Customer(db.Model):
   __tablename__ = 'customers'
   id = Column(Integer, primary_key=True, autoincrement=True)
   user_id = Column(Integer, ForeignKey('users.id'))
-  user = relationship('User', back_populates='customer')
+  user = relationship('User', back_populates='customer', cascade='all, delete')
   service_requests = relationship('ServiceRequest', back_populates='customer')
 
 
@@ -38,7 +38,7 @@ class Professional(db.Model):
   service_category_id = Column(Integer, ForeignKey('service_categories.id'))
   bio = Column(String)
   is_approved = Column(Boolean, default=False)
-  user = relationship('User', back_populates='professional')
+  user = relationship('User', back_populates='professional', cascade='all, delete')
   service_category = relationship('ServiceCategory', back_populates='professionals')
   service_requests = relationship('ServiceRequest', back_populates='professional')
 
@@ -78,7 +78,7 @@ class ServiceRequest(db.Model):
   status = Column(String, default='requested')  # requested, accepted, done
   created_date = Column(DateTime, default=datetime.now)
   booking_date = Column(DateTime)
-  ratings = Column(Integer)
+  ratings = Column(Integer, default=0)
   remarks = Column(String)
   customer = relationship('Customer', back_populates='service_requests')
   service = relationship('Service', back_populates='service_requests')

@@ -19,7 +19,9 @@
     </tr>
     {% for service in services %}
     <tr>
-      <td>{{loop.index}}</td>
+      <td>
+        <a href="/admin/service-details/{{service.id}}">{{service.id}}</a>
+      </td>
       <td>{{service.name}}</td>
       <td>{{service.service_category.name}}</td>
       <td>{{service.price}}</td>
@@ -47,7 +49,9 @@
     </tr>
     {% for professional in professionals %}
     <tr>
-      <td>{{loop.index}}</td>
+      <td>
+        <a href="/admin/professional-details/{{professional.id}}">{{professional.id}}</a>
+      </td>
       <td>{{professional.user.full_name}}</td>
       <td>{{professional.user.city.name}}</td>
       <td>{{professional.service_category.name}}</td>
@@ -81,7 +85,7 @@
     </tr>
     {% for request in service_requests %}
     <tr>
-      <td>{{loop.index}}</td>
+      <td>{{request.id}}</td>
       <td>{{request.customer_id}}</td>
       <td>{{request.professional_id}}</td>
       <td>{{request.service.name}}</td>

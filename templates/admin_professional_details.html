@@ -1,0 +1,45 @@
+{% extends "_base.html" %}
+
+<!-- -->
+{% block title %} Home {% endblock title %}
+
+<!-- -->
+{% block content %}
+<h1>Details of Professional #{{professional.id}}</h1>
+<h2>Ratings: {{avg_ratings}}</h2>
+
+<section>
+  <h2>Personal Details</h2>
+  <p>Name: {{professional.user.full_name}}</p>
+  <p>Email: {{professional.user.email}}</p>
+  <p>Address: {{professional.user.address}}</p>
+  <p>Pin Code: {{professional.user.pin_code}}</p>
+  <p>City: {{professional.user.city.name}}</p>
+  <p>Bio: {{professional.bio}}</p>
+  <p>Service Category: {{professional.service_category.name}}</p>
+</section>
+
+<section>
+  <h2>Service Requests</h2>
+  <table border="1">
+    <tr>
+      <th>#</th>
+      <th>Customer ID</th>
+      <th>Service</th>
+      <th>Status</th>
+      <th>Ratings</th>
+      <th>Remarks</th>
+    </tr>
+    {% for request in professional.service_requests %}
+    <tr>
+      <td>{{loop.index}}</td>
+      <td>{{request.customer_id}}</td>
+      <td>{{request.service.name}}</td>
+      <td>{{request.status}}</td>
+      <td>{{request.ratings}}</td>
+      <td>{{request.remarks}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</section>
+{% endblock content %}
