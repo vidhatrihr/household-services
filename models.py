@@ -1,7 +1,8 @@
-from sqlalchemy import Column, String, Integer, ForeignKey, DateTime
+from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -35,6 +36,8 @@ class Professional(db.Model):
   id = Column(Integer, primary_key=True, autoincrement=True)
   user_id = Column(Integer, ForeignKey('users.id'))
   service_category_id = Column(Integer, ForeignKey('service_categories.id'))
+  bio = Column(String)
+  is_approved = Column(Boolean, default=False)
   user = relationship('User', back_populates='professional')
   service_category = relationship('ServiceCategory', back_populates='professionals')
   service_requests = relationship('ServiceRequest', back_populates='professional')
@@ -72,12 +75,11 @@ class ServiceRequest(db.Model):
   service_id = Column(Integer, ForeignKey('services.id'))
   description = Column(String)
   professional_id = Column(Integer, ForeignKey('professionals.id'))
-  status = Column(String)
-  created_date = Column(DateTime)
+  status = Column(String, default='requested')  # requested, accepted, done
+  created_date = Column(DateTime, default=datetime.now)
   booking_date = Column(DateTime)
   ratings = Column(Integer)
   remarks = Column(String)
-
   customer = relationship('Customer', back_populates='service_requests')
   service = relationship('Service', back_populates='service_requests')
   professional = relationship('Professional', back_populates='service_requests')

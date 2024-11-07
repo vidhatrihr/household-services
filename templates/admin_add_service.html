@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Service</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+        color: red;
+      }
+
+      form {
+        padding: 20px;
+        border: 2px solid #333;
+        border-radius: 10px;
+      }
+
+      div {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Add Service</h1>
+
+      <form action="/admin/add-service" method="post">
+        <div>
+          <label>
+            Name:
+            <input type="text" name="name" />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Price:
+            <input type="text" name="price" />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Category:
+            <select name="service_category_id">
+              {% for category in service_categories %}
+              <option value="{{category.id}}">{{category.name}}</option>
+              {% endfor %}
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <input type="submit" value="Add Service" />
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

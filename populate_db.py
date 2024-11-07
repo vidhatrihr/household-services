@@ -2,7 +2,7 @@ from models import *
 
 
 def populate():
-  # create 1 of admin, customer, professional each
+  # create admin
   db.session.add(Admin(
       user=User(
           email='admin1@example.com',
@@ -14,6 +14,8 @@ def populate():
           city_id=1
       )
   ))
+
+  # create customers
   db.session.add(Customer(
       user=User(
           email='customer1@example.com',
@@ -25,13 +27,30 @@ def populate():
           city_id=1
       )
   ))
+
+  # create professionals
   db.session.add(Professional(
       service_category_id=1,
+      bio='xyz bio',
       user=User(
           email='professional1@example.com',
           password='12345',
           type='professional',
           full_name='professional 1',
+          address='xyz address',
+          pin_code='123456',
+          city_id=2
+      )
+  ))
+  db.session.add(Professional(
+      service_category_id=1,
+      bio='xyz bio',
+      is_approved=True,
+      user=User(
+          email='professional2@example.com',
+          password='12345',
+          type='professional',
+          full_name='professional 2',
           address='xyz address',
           pin_code='123456',
           city_id=2
@@ -44,13 +63,25 @@ def populate():
 
   # create service categories and services
   db.session.add(ServiceCategory(name='Plumbing services', services=[
-      Service(name='Tap repair'),
-      Service(name='Heater setup'),
-      Service(name='Pipe leakage')
+      Service(name='Tap repair', price=100),
+      Service(name='Heater setup', price=100),
+      Service(name='Pipe leakage', price=100)
   ]))
   db.session.add(ServiceCategory(name='Cleaning services', services=[
-      Service(name='Bathroom cleaning'),
-      Service(name='Kitchen cleaning'),
-      Service(name='Full home cleaning')
+      Service(name='Bathroom cleaning', price=100),
+      Service(name='Kitchen cleaning', price=100),
+      Service(name='Full home cleaning', price=100)
   ]))
+
+  # create service requests.
+  db.session.add(ServiceRequest(
+      customer_id=1,
+      service_id=1,
+      booking_date=datetime.now(),
+  ))
+  db.session.add(ServiceRequest(
+      customer_id=1,
+      service_id=2,
+      booking_date=datetime.now()
+  ))
   db.session.commit()

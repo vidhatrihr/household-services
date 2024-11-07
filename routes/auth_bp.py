@@ -63,6 +63,7 @@ def register_professional():
   elif request.method == 'POST':
     new_professional = Professional(
         service_category_id=request.form.get('service_category_id'),
+        bio=request.form.get('bio'),
         user=User(
             email=request.form.get('email'),
             password=request.form.get('password'),
