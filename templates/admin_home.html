@@ -1,4 +1,8 @@
+<!-- -->
 {% extends "_base.html" %}
+
+<!-- -->
+{% import "_tables.html" as tables %}
 
 <!-- -->
 {% block title %} Home {% endblock title %}
@@ -9,91 +13,22 @@
 
 <section>
   <h2>Services</h2>
-  <table border="1">
-    <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>Category</th>
-      <th>Price</th>
-      <th>Actions</th>
-    </tr>
-    {% for service in services %}
-    <tr>
-      <td>
-        <a href="/admin/service-details/{{service.id}}">{{service.id}}</a>
-      </td>
-      <td>{{service.name}}</td>
-      <td>{{service.service_category.name}}</td>
-      <td>{{service.price}}</td>
-      <td>
-        <a href="/admin/edit-service/{{service.id}}">Edit</a>
-        <a href="/admin/delete-service/{{service.id}}">Delete</a>
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
+  {{ tables.services_table(services) }}
   <a href="/admin/add-service">Add Service</a>
 </section>
 
 <section>
   <h2>Professionals</h2>
-  <table border="1">
-    <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>City</th>
-      <th>Service Category</th>
-      <th>Bio</th>
-      <th>Is Approved</th>
-      <th>Action</th>
-    </tr>
-    {% for professional in professionals %}
-    <tr>
-      <td>
-        <a href="/admin/professional-details/{{professional.id}}">{{professional.id}}</a>
-      </td>
-      <td>{{professional.user.full_name}}</td>
-      <td>{{professional.user.city.name}}</td>
-      <td>{{professional.service_category.name}}</td>
-      <td>{{professional.bio}}</td>
-      <td>{{professional.is_approved}}</td>
-      <td>
-        {% if professional.is_approved %}
-        <a href="/admin/block-professional/{{professional.id}}">Block</a>
-        <a href="/admin/delete-professional/{{professional.id}}">Delete</a>
-        {% else %}
-        <a href="/admin/approve-professional/{{professional.id}}">Approve</a>
-        <a href="/admin/delete-professional/{{professional.id}}">Delete</a>
-        {% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
+  {{ tables.professionals_table(professionals, get_avg_ratings) }}
+</section>
+
+<section>
+  <h2>Customers</h2>
+  {{ tables.customers_table(customers) }}
 </section>
 
 <section>
   <h2>Service Requests</h2>
-  <table border="1">
-    <tr>
-      <th>#</th>
-      <th>Customer ID</th>
-      <th>Professional ID</th>
-      <th>Service</th>
-      <th>Status</th>
-      <th>Ratings</th>
-      <th>Remarks</th>
-    </tr>
-    {% for request in service_requests %}
-    <tr>
-      <td>{{request.id}}</td>
-      <td>{{request.customer_id}}</td>
-      <td>{{request.professional_id}}</td>
-      <td>{{request.service.name}}</td>
-      <td>{{request.status}}</td>
-      <td>{{request.ratings}}</td>
-      <td>{{request.remarks}}</td>
-    </tr>
-    {% endfor %}
-  </table>
+  {{ tables.service_requests_table(service_requests) }}
 </section>
 {% endblock content %}

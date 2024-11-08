@@ -1,4 +1,8 @@
+<!-- -->
 {% extends "_base.html" %}
+
+<!-- -->
+{% import "_tables.html" as tables %}
 
 <!-- -->
 {% block title %} Home {% endblock title %}
@@ -6,7 +10,7 @@
 <!-- -->
 {% block content %}
 <h1>Details of Professional #{{professional.id}}</h1>
-<h2>Ratings: {{avg_ratings}}</h2>
+<h2>Ratings: {{get_avg_ratings(professional)}}</h2>
 
 <section>
   <h2>Personal Details</h2>
@@ -21,25 +25,6 @@
 
 <section>
   <h2>Service Requests</h2>
-  <table border="1">
-    <tr>
-      <th>#</th>
-      <th>Customer ID</th>
-      <th>Service</th>
-      <th>Status</th>
-      <th>Ratings</th>
-      <th>Remarks</th>
-    </tr>
-    {% for request in professional.service_requests %}
-    <tr>
-      <td>{{loop.index}}</td>
-      <td>{{request.customer_id}}</td>
-      <td>{{request.service.name}}</td>
-      <td>{{request.status}}</td>
-      <td>{{request.ratings}}</td>
-      <td>{{request.remarks}}</td>
-    </tr>
-    {% endfor %}
-  </table>
+  {{ tables.service_requests_table(professional.service_requests) }}
 </section>
 {% endblock content %}

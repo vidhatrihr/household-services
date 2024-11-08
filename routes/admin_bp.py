@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect
 from models import *
+from utils import *
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -10,14 +11,16 @@ def admin_service_details(service_id):
   return render_template('admin_service_details.html', service=service)
 
 
+@admin_bp.route('/admin/customer-details/<int:customer_id>')
+def admin_customer_details(customer_id):
+  customer = Customer.query.filter_by(id=customer_id).first()
+  return render_template('admin_customer_details.html', customer=customer)
+
+
 @admin_bp.route('/admin/professional-details/<int:professional_id>')
 def admin_professional_details(professional_id):
   professional = Professional.query.filter_by(id=professional_id).first()
-  ratings = [request.ratings for request in professional.service_requests]
-  avg_ratings = 0.0
-  if ratings:
-    avg_ratings = sum(ratings)/len(ratings)
-  return render_template('admin_professional_details.html', professional=professional, avg_ratings=avg_ratings)
+  return render_template('admin_professional_details.html', professional=professional, get_avg_ratings=get_avg_ratings)
 
 
 @admin_bp.route('/admin/delete-professional/<int:professional_id>')
@@ -88,8 +91,9 @@ def add_service():
 def admin_home():
   services = Service.query.all()
   professionals = Professional.query.all()
+  customers = Customer.query.all()
   service_requests = ServiceRequest.query.all()
-  return render_template('admin_home.html', services=services, professionals=professionals, service_requests=service_requests)
+  return render_template('admin_home.html', services=services, professionals=professionals, customers=customers, service_requests=service_requests, get_avg_ratings=get_avg_ratings)
 
 
 @admin_bp.route('/admin/search')

@@ -1,4 +1,8 @@
+<!-- -->
 {% extends "_base.html" %}
+
+<!-- -->
+{% import "_tables.html" as tables %}
 
 <!-- -->
 {% block title %} Home {% endblock title %}
@@ -16,25 +20,6 @@
 
 <section>
   <h2>Service Requests</h2>
-  <table border="1">
-    <tr>
-      <th>#</th>
-      <th>Customer ID</th>
-      <th>Professional ID</th>
-      <th>Status</th>
-      <th>Ratings</th>
-      <th>Remarks</th>
-    </tr>
-    {% for request in service.service_requests %}
-    <tr>
-      <td>{{loop.index}}</td>
-      <td>{{request.customer_id}}</td>
-      <td>{{request.professional.id}}</td>
-      <td>{{request.status}}</td>
-      <td>{{request.ratings}}</td>
-      <td>{{request.remarks}}</td>
-    </tr>
-    {% endfor %}
-  </table>
+  {{ tables.service_requests_table(service.service_requests) }}
 </section>
 {% endblock content %}
