@@ -21,7 +21,29 @@ def populate():
           email='customer1@example.com',
           password='12345',
           type='customer',
-          full_name='customer 1',
+          full_name='gauri',
+          address='xyz address',
+          pin_code='123456',
+          city_id=1
+      )
+  ))
+  db.session.add(Customer(
+      user=User(
+          email='customer2@example.com',
+          password='12345',
+          type='customer',
+          full_name='cmd',
+          address='xyz address',
+          pin_code='123455',
+          city_id=1
+      )
+  ))
+  db.session.add(Customer(
+      user=User(
+          email='customer3@example.com',
+          password='12345',
+          type='customer',
+          full_name='sanika',
           address='xyz address',
           pin_code='123456',
           city_id=1
@@ -36,7 +58,7 @@ def populate():
           email='professional1@example.com',
           password='12345',
           type='professional',
-          full_name='professional 1',
+          full_name='Harikesh shukla',
           address='xyz address',
           pin_code='123456',
           city_id=2
@@ -50,9 +72,23 @@ def populate():
           email='professional2@example.com',
           password='12345',
           type='professional',
-          full_name='professional 2',
+          full_name='Vidu',
           address='xyz address',
           pin_code='123456',
+          city_id=2
+      )
+  ))
+  db.session.add(Professional(
+      service_category_id=1,
+      bio='xyz bio',
+      is_approved=True,
+      user=User(
+          email='professional3@example.com',
+          password='12345',
+          type='professional',
+          full_name='muskan',
+          address='xyz address',
+          pin_code='123455',
           city_id=2
       )
   ))

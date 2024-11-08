@@ -5,6 +5,30 @@ from utils import *
 admin_bp = Blueprint('admin', __name__)
 
 
+@admin_bp.route('/admin/search-results/<search_type>')
+def admin_search_results(search_type):
+  full_name = request.args.get('full_name')
+  pin_code = request.args.get('pin_code')
+  if search_type == 'customers':
+    query = Customer.query.join(User)
+    if full_name:
+      query = query.filter(User.full_name.ilike(f'%{full_name}%'))
+    if pin_code:
+      query = query.filter(User.pin_code == pin_code)
+    customers = query.all()
+    return render_template('admin_search_results.html', customers=customers, search_type=search_type)
+
+  elif search_type == 'professionals':
+    query = Professional.query.join(User)
+    if full_name:
+      query = query.filter(User.full_name.ilike(f'%{full_name}%'))
+    if pin_code:
+      query = query.filter(User.pin_code == pin_code)
+    professionals = query.all()
+    return render_template('admin_search_results.html', professionals=professionals, get_avg_ratings=get_avg_ratings,
+                           search_type=search_type)
+
+
 @admin_bp.route('/admin/service-details/<int:service_id>')
 def admin_service_details(service_id):
   service = Service.query.filter_by(id=service_id).first()
