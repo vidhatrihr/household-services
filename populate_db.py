@@ -115,10 +115,18 @@ def populate():
       service_id=1,
       professional_id=1,
       booking_date=datetime.now(),
+      ratings=3
   ))
   db.session.add(ServiceRequest(
       customer_id=1,
       service_id=2,
-      booking_date=datetime.now()
+      booking_date=datetime.now(),
+      ratings=3
+  ))
+  db.session.add(ServiceRequest(
+      customer_id=1,
+      service_id=2,
+      booking_date=datetime.now(),
+      ratings=5
   ))
   db.session.commit()

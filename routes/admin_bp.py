@@ -127,4 +127,8 @@ def admin_search():
 
 @admin_bp.route('/admin/summary')
 def admin_summary():
-  return render_template('admin_summary.html')
+  stars = {}
+  for i in range(1, 6):
+    stars[i] = ServiceRequest.query.filter_by(ratings=i).count()
+  total_stars = max(1, sum(stars.values()))
+  return render_template('admin_summary.html', stars=stars, total_stars=total_stars)
