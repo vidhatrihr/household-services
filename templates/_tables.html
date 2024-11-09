@@ -12,7 +12,7 @@
     {% for service in services %}
     <tr>
       <td>
-        <a href="/admin/service-details/{{service.id}}">{{service.id}}</a>
+        <a href="/admin/service-details/{{service.id}}">{{service.id}} ↪</a>
       </td>
       <td>{{service.name}}</td>
       <td>{{service.service_category.name}}</td>
@@ -45,7 +45,7 @@
     {% for professional in professionals %}
     <tr>
       <td>
-        <a href="/admin/professional-details/{{professional.id}}">{{professional.id}}</a>
+        <a href="/admin/professional-details/{{professional.id}}">{{professional.id}} ↪</a>
       </td>
       <td>{{professional.user.email}}</td>
       <td>{{professional.user.full_name}}</td>
@@ -84,7 +84,7 @@
     {% for customer in customers %}
     <tr>
       <td>
-        <a href="/admin/customer-details/{{customer.id}}">{{customer.id}}</a>
+        <a href="/admin/customer-details/{{customer.id}}">{{customer.id}} ↪</a>
       </td>
       <td>{{customer.user.email}}</td>
       <td>{{customer.user.full_name}}</td>
@@ -112,12 +112,12 @@
     </tr>
     {% for request in service_requests %}
     <tr>
-      <td>hello {{request.service}}</td>
+      <td>{{request.id}}</td>
       <td>
-        <a href="/admin/customer-details/{{request.customer_id}}">{{request.customer_id}}</a>
+        <a href="/admin/customer-details/{{request.customer_id}}">{{request.customer_id}} ↪</a>
       </td>
       <td>
-        <a href="/admin/professional-details/{{request.professional_id}}">{{request.professional_id}}</a>
+        <a href="/admin/professional-details/{{request.professional_id}}">{{request.professional_id}} ↪</a>
       </td>
       <td>{{request.service.name}}</td>
       <td>{{request.status}}</td>

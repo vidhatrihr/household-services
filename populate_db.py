@@ -32,7 +32,7 @@ def populate():
           email='customer2@example.com',
           password='12345',
           type='customer',
-          full_name='cmd',
+          full_name='sanika',
           address='xyz address',
           pin_code='123455',
           city_id=1
@@ -43,10 +43,10 @@ def populate():
           email='customer3@example.com',
           password='12345',
           type='customer',
-          full_name='sanika',
+          full_name='cmd',
           address='xyz address',
           pin_code='123456',
-          city_id=1
+          city_id=2
       )
   ))
 
@@ -58,10 +58,10 @@ def populate():
           email='professional1@example.com',
           password='12345',
           type='professional',
-          full_name='Harikesh shukla',
+          full_name='harikesh',
           address='xyz address',
           pin_code='123456',
-          city_id=2
+          city_id=1
       )
   ))
   db.session.add(Professional(
@@ -72,14 +72,14 @@ def populate():
           email='professional2@example.com',
           password='12345',
           type='professional',
-          full_name='Vidu',
+          full_name='vidu',
           address='xyz address',
           pin_code='123456',
-          city_id=2
+          city_id=1
       )
   ))
   db.session.add(Professional(
-      service_category_id=1,
+      service_category_id=2,
       bio='xyz bio',
       is_approved=True,
       user=User(
@@ -110,44 +110,47 @@ def populate():
   ]))
 
   # create service requests.
+  # gauri
   db.session.add(ServiceRequest(
       customer_id=1,
       service_id=1,
       professional_id=1,
       booking_date=datetime.now(),
-      ratings=1,
-      status='done'
-  ))
-  db.session.add(ServiceRequest(
-      customer_id=1,
-      service_id=2,
-      booking_date=datetime.now(),
-      ratings=2,
       status='accepted'
   ))
   db.session.add(ServiceRequest(
       customer_id=1,
       service_id=2,
+      professional_id=2,
       booking_date=datetime.now(),
-      ratings=3,
-      status='done'
+      status='accepted'
+  ))
+
+  # sanika
+  db.session.add(ServiceRequest(
+      customer_id=2,
+      service_id=3,
+      professional_id=1,
+      booking_date=datetime.now(),
+      status='accepted'
   ))
   db.session.add(ServiceRequest(
-      customer_id=1,
+      customer_id=2,
       service_id=2,
+      booking_date=datetime.now()
+  ))
+
+  # cmd
+  db.session.add(ServiceRequest(
+      customer_id=3,
+      service_id=4,
+      professional_id=3,
       booking_date=datetime.now(),
-      ratings=4
+      status='accepted'
   ))
   db.session.add(ServiceRequest(
-      customer_id=1,
-      service_id=2,
+      customer_id=3,
+      service_id=1,
       booking_date=datetime.now(),
-      ratings=5
-  ))
-  db.session.add(ServiceRequest(
-      customer_id=1,
-      service_id=2,
-      booking_date=datetime.now(),
-      ratings=5
   ))
   db.session.commit()

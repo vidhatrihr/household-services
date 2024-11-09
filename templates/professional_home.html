@@ -1,9 +1,28 @@
+<!-- -->
 {% extends "_base.html" %}
+
+<!-- -->
+{% import "_tables.html" as tables %}
 
 <!-- -->
 {% block title %} Home {% endblock title %}
 
 <!-- -->
 {% block content %}
-<h1>Welcome to professional dashboard</h1>
+<h1>Requests in your city:</h1>
+
+<section>
+  <h2>Accepted Requests (Pending):</h2>
+  {{ tables.service_requests_table(accepted_requests) }}
+</section>
+
+<section>
+  <h2>Requests available to accept:</h2>
+  {{ tables.service_requests_table(requests_available_to_accept) }}
+</section>
+
+<section>
+  <h2>Closed Requests</h2>
+  {{ tables.service_requests_table(closed_requests) }}
+</section>
 {% endblock content %}
