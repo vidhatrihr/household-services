@@ -112,7 +112,7 @@
     </tr>
     {% for request in service_requests %}
     <tr>
-      <td>{{request.id}}</td>
+      <td>hello {{request.service}}</td>
       <td>
         <a href="/admin/customer-details/{{request.customer_id}}">{{request.customer_id}}</a>
       </td>

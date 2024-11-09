@@ -2,6 +2,10 @@ from flask import Blueprint, render_template, request, redirect
 from models import *
 from utils import *
 
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use("Agg")
+
 admin_bp = Blueprint('admin', __name__)
 
 
@@ -131,4 +135,24 @@ def admin_summary():
   for i in range(1, 6):
     stars[i] = ServiceRequest.query.filter_by(ratings=i).count()
   total_stars = max(1, sum(stars.values()))
-  return render_template('admin_summary.html', stars=stars, total_stars=total_stars)
+  requests_requested = ServiceRequest.query.filter_by(status='requested').count()
+  requests_accepted = ServiceRequest.query.filter_by(status='accepted').count()
+  requests_done = ServiceRequest.query.filter_by(status='done').count()
+
+  """ Generate ratings pie chart """
+  labels = [f'{i} Star' for i in range(1, 6)]
+  data = [stars[i] for i in range(1, 6)]
+  plt.pie(data, labels=labels, autopct='%1.2f%%')
+  plt.title('Overall Customer Ratings')
+  plt.savefig('static/overall_customer_ratings.png')
+  plt.close()
+
+  """ Generate service requests bar chart """
+  labels = ['Requested', 'Accepted', 'Done']
+  data = [requests_requested, requests_accepted, requests_done]
+  plt.bar(labels, data, color=['red', 'blue', 'green'])
+  plt.title('Service Request Summary')
+  plt.savefig('static/service_request_summary.png')
+  plt.close()
+  return render_template('admin_summary.html', stars=stars, total_stars=total_stars, requests_requested=requests_requested,
+                         requests_accepted=requests_accepted, requests_done=requests_done)

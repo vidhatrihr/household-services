@@ -14,8 +14,13 @@
   <li>5 Stars: {{(stars.5 / total_stars * 100) | round(2)}}%</li>
 </ul>
 <h2>Overall Customer ratings</h2>
-<img src="" alt="Overall Customer ratings" />
+<img src="/static/overall_customer_ratings.png" alt="Overall Customer ratings" />
 
 <h2>Service Request Summary</h2>
-<img src="" alt="Service Request Summary" />
+<ul>
+  <li>Requested: {{requests_requested}}</li>
+  <li>Accepted: {{requests_accepted}}</li>
+  <li>Done: {{requests_done}}</li>
+</ul>
+<img src="/static/service_request_summary.png" alt="Service Request Summary" />
 {% endblock content %}
