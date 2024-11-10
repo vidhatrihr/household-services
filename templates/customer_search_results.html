@@ -1,0 +1,19 @@
+<!-- -->
+{% extends "_base.html" %}
+
+<!-- -->
+{% import "_tables.html" as tables %}
+
+<!-- -->
+{% block title %} Search Results {% endblock title %}
+
+<!-- -->
+{% block content %}
+<h1>Search Results</h1>
+
+{% if search_type == 'services' %}
+<section>
+  <h2>Services</h2>
+  {{ tables.services_table(services) }}
+</section>
+{% else %} {% endif %} {% endblock content %}

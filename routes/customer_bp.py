@@ -6,6 +6,17 @@ from models import *
 customer_bp = Blueprint('customer', __name__)
 
 
+@customer_bp.route('/customer/search-results/<search_type>')
+def customer_search_results(search_type):
+  if search_type == 'services':
+    name = request.args.get('name')
+    query = Service.query
+    if name:
+      query = query.filter(Service.name.ilike(f'%{name}%'))
+    services = query.all()
+    return render_template('customer_search_results.html', services=services, search_type=search_type)
+
+
 @customer_bp.route('/customer/book-service/<int:service_id>', methods=['GET', 'POST'])
 def customer_book_service(service_id):
   if request.method == 'GET':
