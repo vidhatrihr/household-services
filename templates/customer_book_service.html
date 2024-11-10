@@ -1,0 +1,57 @@
+{% extends "_base.html" %}
+
+<!-- -->
+{% block title %} Book Service {% endblock title %}
+
+<!-- -->
+{% block content %}
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
+    color: red;
+  }
+
+  form {
+    padding: 20px;
+    border: 2px solid #333;
+    border-radius: 10px;
+  }
+
+  div {
+    margin-bottom: 10px;
+  }
+</style>
+
+<h1>Book Service</h1>
+
+<form action="/customer/book-service/{{service_id}}" method="post">
+  <div>
+    <label>
+      Description:
+      <input type="text" name="description" />
+    </label>
+  </div>
+
+  <div>
+    <label>
+      Booking Date:
+      <input type="date" name="booking_date" />
+    </label>
+  </div>
+
+  <div>
+    <input type="submit" value="Book Service" />
+  </div>
+</form>
+
+{% endblock content %}

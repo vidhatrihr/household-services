@@ -12,6 +12,23 @@
 <h1>Welcome to Customer Dashboard</h1>
 
 <section>
+  <h2>Looking for?</h2>
+  {% for category in categories %}
+  <div>
+    <h3>{{category.name}}</h3>
+    <ul>
+      {% for service in category.services %}
+      <li>
+        {{service.name}}
+        <a href="/customer/book-service/{{service.id}}">Book</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+</section>
+
+<section>
   <h2>Accepted requests:</h2>
   {{ tables.service_requests_table(accepted_requests, can_close=True) }}
 </section>

@@ -128,13 +128,13 @@
       <td>{{request.remarks}}</td>
       {% if can_accept %}
       <td>
-        <a href="#">Accept</a>
+        <a href="/professional/accept-request/{{request.id}}">Accept</a>
       </td>
       {% endif %}
       <!-- -->
       {% if can_close %}
       <td>
-        <a href="#">Close</a>
+        <a href="/customer/close-request/{{request.id}}">Close</a>
       </td>
       {% endif %}
     </tr>

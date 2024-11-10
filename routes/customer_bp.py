@@ -1,8 +1,42 @@
-from flask import Blueprint, render_template
+from datetime import datetime
+from flask import Blueprint, render_template, request, redirect
 from flask_login import current_user
 from models import *
 
 customer_bp = Blueprint('customer', __name__)
+
+
+@customer_bp.route('/customer/book-service/<int:service_id>', methods=['GET', 'POST'])
+def customer_book_service(service_id):
+  if request.method == 'GET':
+    return render_template('customer_book_service.html', service_id=service_id)
+
+  elif request.method == 'POST':
+    customer_id = current_user.customer.id
+    booking_date = datetime.strptime(request.form.get('booking_date'), '%Y-%m-%d')
+    new_service_request = ServiceRequest(
+        customer_id=customer_id,
+        service_id=service_id,
+        description=request.form.get('description'),
+        booking_date=booking_date
+    )
+    db.session.add(new_service_request)
+    db.session.commit()
+    return redirect('/')
+
+
+@customer_bp.route('/customer/close-request/<int:request_id>', methods=['GET', 'POST'])
+def customer_close_request(request_id):
+  if request.method == 'GET':
+    return render_template('customer_close_request.html', request_id=request_id)
+
+  elif request.method == 'POST':
+    service_request = ServiceRequest.query.filter_by(id=request_id).first()
+    service_request.status = 'done'
+    service_request.ratings = request.form.get('stars')
+    service_request.remarks = request.form.get('remarks')
+    db.session.commit()
+    return redirect('/')
 
 
 @customer_bp.route('/customer/home')
@@ -24,7 +58,8 @@ def customer_home():
       'customer_home.html',
       accepted_requests=accepted_requests,
       pending_requests=pending_requests,
-      past_requests=past_requests
+      past_requests=past_requests,
+      categories=ServiceCategory.query.all()
   )
 
 

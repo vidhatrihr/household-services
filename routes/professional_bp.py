@@ -1,8 +1,17 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 from models import *
 from flask_login import current_user
 
 professional_bp = Blueprint('professional', __name__)
+
+
+@professional_bp.route('/professional/accept-request/<int:request_id>')
+def professional_accept_request(request_id):
+  request = ServiceRequest.query.filter_by(id=request_id).first()
+  request.status = 'accepted'
+  request.professional = current_user.professional
+  db.session.commit()
+  return redirect('/')
 
 
 @professional_bp.route('/professional/home')
