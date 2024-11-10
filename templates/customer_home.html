@@ -1,9 +1,28 @@
+<!-- -->
 {% extends "_base.html" %}
+
+<!-- -->
+{% import "_tables.html" as tables %}
 
 <!-- -->
 {% block title %} Home {% endblock title %}
 
 <!-- -->
 {% block content %}
-<h1>Welcome to customer dashboard</h1>
+<h1>Welcome to Customer Dashboard</h1>
+
+<section>
+  <h2>Accepted requests:</h2>
+  {{ tables.service_requests_table(accepted_requests, can_close=True) }}
+</section>
+
+<section>
+  <h2>Pending requests (yet to be accepted):</h2>
+  {{ tables.service_requests_table(pending_requests) }}
+</section>
+
+<section>
+  <h2>Past requests:</h2>
+  {{ tables.service_requests_table(past_requests) }}
+</section>
 {% endblock content %}

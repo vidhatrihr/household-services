@@ -98,7 +98,7 @@
 {% endmacro %}
 
 <!-- -->
-{% macro service_requests_table(service_requests) %}
+{% macro service_requests_table(service_requests, can_accept=False, can_close=False) %}
 <div class="table-responsive">
   <table class="table table-striped table-hover">
     <tr>
@@ -109,6 +109,9 @@
       <th>Status</th>
       <th>Ratings</th>
       <th>Remarks</th>
+      {% if can_accept or can_close %}
+      <th>Actions</th>
+      {% endif %}
     </tr>
     {% for request in service_requests %}
     <tr>
@@ -123,6 +126,17 @@
       <td>{{request.status}}</td>
       <td>{{request.ratings}}</td>
       <td>{{request.remarks}}</td>
+      {% if can_accept %}
+      <td>
+        <a href="#">Accept</a>
+      </td>
+      {% endif %}
+      <!-- -->
+      {% if can_close %}
+      <td>
+        <a href="#">Close</a>
+      </td>
+      {% endif %}
     </tr>
     {% endfor %}
   </table>

@@ -123,7 +123,12 @@ def populate():
       service_id=2,
       professional_id=2,
       booking_date=datetime.now(),
-      status='accepted'
+      status='done'
+  ))
+  db.session.add(ServiceRequest(
+      customer_id=1,
+      service_id=2,
+      booking_date=datetime.now()
   ))
 
   # sanika

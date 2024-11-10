@@ -9,20 +9,20 @@
 
 <!-- -->
 {% block content %}
-<h1>Requests in your city:</h1>
+<h1>Welcome to Professional Dashboard</h1>
 
 <section>
-  <h2>Accepted Requests (Pending):</h2>
+  <h2>Accepted requests:</h2>
   {{ tables.service_requests_table(accepted_requests) }}
 </section>
 
 <section>
   <h2>Requests available to accept:</h2>
-  {{ tables.service_requests_table(requests_available_to_accept) }}
+  {{ tables.service_requests_table(requests_available_to_accept, can_accept=True) }}
 </section>
 
 <section>
-  <h2>Closed Requests</h2>
+  <h2>Closed requests:</h2>
   {{ tables.service_requests_table(closed_requests) }}
 </section>
 {% endblock content %}
