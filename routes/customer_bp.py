@@ -3,6 +3,10 @@ from flask import Blueprint, render_template, request, redirect
 from flask_login import current_user
 from models import *
 
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+
 customer_bp = Blueprint('customer', __name__)
 
 
@@ -60,8 +64,16 @@ def customer_search():
 
 @customer_bp.route('/customer/search-results/<search_type>')
 def customer_search_results(search_type):
+  """ 
+  example url:
+    http://localhost:5000/customer/search-results/services?name=...&pin_code=...
+  """
   if search_type == 'services':
+    # get search parameters from query string in url (?name=...&pin_code=...)
     name = request.args.get('name')
+    pin_code = request.args.get('pin_code')
+
+    # do query
     query = Service.query
     if name:
       query = query.filter(Service.name.ilike(f'%{name}%'))
@@ -74,7 +86,34 @@ def customer_search_results(search_type):
 
 @customer_bp.route('/customer/summary')
 def customer_summary():
-  return render_template('customer_summary.html')
+  requests_requested = ServiceRequest.query.filter_by(
+      customer_id=current_user.customer.id,
+      status='requested'
+  ).count()
+
+  requests_accepted = ServiceRequest.query.filter_by(
+      customer_id=current_user.customer.id,
+      status='accepted'
+  ).count()
+
+  requests_done = ServiceRequest.query.filter_by(
+      customer_id=current_user.customer.id,
+      status='done'
+  ).count()
+
+  """ generate service requests bar chart """
+  labels = ['Requested', 'Accepted', 'Done']
+  data = [requests_requested, requests_accepted, requests_done]
+  plt.bar(labels, data, color=['red', 'blue', 'green'])
+  plt.title('Service Request Summary')
+  plt.savefig('static/service_request_summary.png')
+  plt.close()
+
+  return render_template(
+      'customer_summary.html',
+      requests_requested=requests_requested, requests_accepted=requests_accepted,
+      requests_done=requests_done
+  )
 
 
 # ====== book-service ======

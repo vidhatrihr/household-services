@@ -6,4 +6,12 @@
 <!-- -->
 {% block content %}
 <h1>Welcome to summary page</h1>
+
+<h2>Service Request Summary</h2>
+<ul>
+  <li>Requested: {{requests_requested}}</li>
+  <li>Accepted: {{requests_accepted}}</li>
+  <li>Done: {{requests_done}}</li>
+</ul>
+<img src="/static/service_request_summary.png" alt="Service Request Summary" />
 {% endblock content %}
