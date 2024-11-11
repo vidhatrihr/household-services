@@ -6,6 +6,58 @@ from models import *
 customer_bp = Blueprint('customer', __name__)
 
 
+# ====== home ======
+
+
+@customer_bp.route('/customer/home')
+def customer_home():
+  customer_id = current_user.customer.id
+
+  accepted_requests = ServiceRequest.query.filter_by(
+      customer_id=customer_id,
+      status='accepted'
+  ).all()
+
+  pending_requests = ServiceRequest.query.filter_by(
+      customer_id=customer_id,
+      status='requested'
+  ).all()
+
+  past_requests = ServiceRequest.query.filter_by(
+      customer_id=customer_id,
+      status='done'
+  ).all()
+
+  all_categories = ServiceCategory.query.all()
+  """ if we need to show only those categories from customer's city """
+  categories_in_same_city = []
+  for category in all_categories:
+    # should we include this category?
+    # we can include if we find a professional in this category from customer's city
+    # we do check all professionals of this category one by one
+    for professional in category.professionals:
+      if professional.user.city == current_user.city:
+        # we found such a professional
+        categories_in_same_city.append(category)
+        break
+
+  return render_template(
+      'customer_home.html',
+      accepted_requests=accepted_requests,
+      pending_requests=pending_requests,
+      past_requests=past_requests,
+      categories=all_categories  # can do `categories_in_same_city`
+  )
+
+
+# ====== search ======
+
+
+@customer_bp.route('/customer/search')
+def customer_search():
+  return render_template('customer_search.html')
+
+
 @customer_bp.route('/customer/search-results/<search_type>')
 def customer_search_results(search_type):
   if search_type == 'services':
@@ -15,6 +67,17 @@ def customer_search_results(search_type):
       query = query.filter(Service.name.ilike(f'%{name}%'))
     services = query.all()
     return render_template('customer_search_results.html', services=services, search_type=search_type)
+
+
+# ====== summary ======
+
+
+@customer_bp.route('/customer/summary')
+def customer_summary():
+  return render_template('customer_summary.html')
+
+
+# ====== book-service ======
 
 
 @customer_bp.route('/customer/book-service/<int:service_id>', methods=['GET', 'POST'])
@@ -36,6 +99,9 @@ def customer_book_service(service_id):
     return redirect('/')
 
 
+# ====== close-request ======
+
+
 @customer_bp.route('/customer/close-request/<int:request_id>', methods=['GET', 'POST'])
 def customer_close_request(request_id):
   if request.method == 'GET':
@@ -48,37 +114,3 @@ def customer_close_request(request_id):
     service_request.remarks = request.form.get('remarks')
     db.session.commit()
     return redirect('/')
-
-
-@customer_bp.route('/customer/home')
-def customer_home():
-  customer_id = current_user.customer.id
-  accepted_requests = ServiceRequest.query.filter_by(
-      customer_id=customer_id,
-      status='accepted'
-  )
-  pending_requests = ServiceRequest.query.filter_by(
-      customer_id=customer_id,
-      status='requested'
-  )
-  past_requests = ServiceRequest.query.filter_by(
-      customer_id=customer_id,
-      status='done'
-  )
-  return render_template(
-      'customer_home.html',
-      accepted_requests=accepted_requests,
-      pending_requests=pending_requests,
-      past_requests=past_requests,
-      categories=ServiceCategory.query.all()
-  )
-
-
-@customer_bp.route('/customer/search')
-def customer_search():
-  return render_template('customer_search.html')
-
-
-@customer_bp.route('/customer/summary')
-def customer_summary():
-  return render_template('customer_summary.html')
