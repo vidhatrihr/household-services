@@ -34,12 +34,12 @@
 </section>
 
 <section>
-  <h2>Pending requests (yet to be accepted):</h2>
+  <h2>Requests yet to be accepted:</h2>
   {{ tables.service_requests_table(pending_requests) }}
 </section>
 
 <section>
-  <h2>Past requests:</h2>
+  <h2>Closed requests:</h2>
   {{ tables.service_requests_table(past_requests) }}
 </section>
 {% endblock content %}
