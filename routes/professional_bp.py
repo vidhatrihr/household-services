@@ -4,6 +4,10 @@ from flask_login import current_user
 from datetime import datetime
 
 
+import matplotlib
+from matplotlib import pyplot as plt
+matplotlib.use('Agg')
+
 professional_bp = Blueprint('professional', __name__)
 
 
@@ -85,7 +89,39 @@ def professional_search_results(search_type):
 
 @professional_bp.route('/professional/summary')
 def professional_summary():
-  return render_template('professional_summary.html')
+  stars = {}  # {1: x, ... 5: x}, x is count of requests with that many stars
+  for i in range(1, 6):
+    stars[i] = ServiceRequest.query.filter_by(ratings=i, professional=current_user.professional).count()
+  total_stars = sum(stars.values())
+
+  requests_requested = ServiceRequest.query.filter_by(
+      status='requested', professional=current_user.professional).count()
+  requests_accepted = ServiceRequest.query.filter_by(status='accepted', professional=current_user.professional).count()
+  requests_done = ServiceRequest.query.filter_by(status='done', professional=current_user.professional).count()
+
+  if total_stars > 0:
+    """ generate ratings pie chart """
+    labels = [f'{i} Star' for i in range(1, 6)]
+    data = [stars[i] for i in range(1, 6)]
+    plt.pie(data, labels=labels, autopct='%1.2f%%')
+    plt.title('Overall Customer Ratings')
+    plt.savefig('static/overall_customer_ratings.png')
+    plt.close()
+
+  """ generate service requests bar chart """
+  labels = ['Requested', 'Accepted', 'Done']
+  data = [requests_requested, requests_accepted, requests_done]
+  plt.bar(labels, data, color=['red', 'blue', 'green'])
+  plt.title('Service Request Summary')
+  plt.savefig('static/service_request_summary.png')
+  plt.close()
+
+  return render_template(
+      'professional_summary.html',
+      stars=stars, total_stars=total_stars,
+      requests_requested=requests_requested, requests_accepted=requests_accepted,
+      requests_done=requests_done
+  )
 
 
 # ====== accept-request ======

@@ -85,13 +85,14 @@ def admin_summary():
   requests_accepted = ServiceRequest.query.filter_by(status='accepted').count()
   requests_done = ServiceRequest.query.filter_by(status='done').count()
 
-  """ generate ratings pie chart """
-  labels = [f'{i} Star' for i in range(1, 6)]
-  data = [stars[i] for i in range(1, 6)]
-  plt.pie(data, labels=labels, autopct='%1.2f%%')
-  plt.title('Overall Customer Ratings')
-  plt.savefig('static/overall_customer_ratings.png')
-  plt.close()
+  if total_stars > 0:
+    """ generate ratings pie chart """
+    labels = [f'{i} Star' for i in range(1, 6)]
+    data = [stars[i] for i in range(1, 6)]
+    plt.pie(data, labels=labels, autopct='%1.2f%%')
+    plt.title('Overall Customer Ratings')
+    plt.savefig('static/overall_customer_ratings.png')
+    plt.close()
 
   """ generate service requests bar chart """
   labels = ['Requested', 'Accepted', 'Done']
