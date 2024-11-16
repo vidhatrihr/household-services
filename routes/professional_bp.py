@@ -45,7 +45,8 @@ def professional_home():
 
 @professional_bp.route('/professional/search')
 def professional_search():
-  return render_template('professional_search.html')
+  services = Service.query.filter_by(service_category=current_user.professional.service_category)
+  return render_template('professional_search.html', services=services)
 
 
 @professional_bp.route('/professional/search-results/<search_type>')
@@ -64,19 +65,20 @@ def professional_search_results(search_type):
     query = ServiceRequest.query
 
     # apply filters as required
-    query = query.filter(ServiceRequest.status == 'accepted')
+    query = query.filter(ServiceRequest.status == 'accepted',
+                         ServiceRequest.professional_id == current_user.professional.id)
     if booking_date:
       # convert `booking_date str` to `datetime obj`
-      y, m, d = booking_date.split('-')
+      y, m, d = map(int, booking_date.split('-'))
       query = query.filter(ServiceRequest.booking_date == datetime(y, m, d))
     if pin_code:
-      query = ...
+      query = query.join(Customer).join(User).filter(User.pin_code == pin_code)
     if service_id:
-      query = ...
+      query = query.filter(ServiceRequest.service_id == service_id)
 
-    # fetch all rows
-    query = query.all()
-    return render_template('professional_search_results.html')
+      # fetch all rows
+    service_requests = query.all()
+    return render_template('professional_search_results.html', search_type=search_type, service_requests=service_requests)
 
 # ====== summary ======
 

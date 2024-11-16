@@ -6,6 +6,9 @@ from models import *
 auth_bp = Blueprint('auth', __name__)
 
 
+# ======== login ========
+
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
   if current_user.is_authenticated:
@@ -26,10 +29,16 @@ def login():
     return render_template('login.html', error=True)
 
 
+# ======== logout ========
+
+
 @auth_bp.route('/logout')
 def logout():
   logout_user()
   return redirect('/login')
+
+
+# ======== register ========
 
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
@@ -53,6 +62,9 @@ def register():
     db.session.commit()
     login_user(new_customer.user)
     return redirect('/')
+
+
+# ======== register professional ========
 
 
 @auth_bp.route('/register/professional', methods=['GET', 'POST'])

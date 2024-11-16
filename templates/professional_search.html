@@ -46,9 +46,10 @@
       <label>
         By Service:
         <select name="service_id">
-          <option value="1">Tap repair</option>
-          <option value="2">Heater setup</option>
-          <option value="3">Pipe leakage</option>
+          <option value="" selected>Select a service</option>
+          {% for service in services %}
+          <option value="{{service.id}}">{{service.name}}</option>
+          {% endfor %}
         </select>
       </label>
     </div>
