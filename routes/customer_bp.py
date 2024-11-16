@@ -116,6 +116,13 @@ def customer_summary():
   )
 
 
+# ====== profile ======
+
+
+@customer_bp.route('/customer/profile')
+def customer_profile():
+  return render_template('customer_profile.html', customer=current_user.customer)
+
 # ====== book-service ======
 
 

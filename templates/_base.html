@@ -24,6 +24,9 @@
       <a href="/{{current_user.type}}/home">Home</a>
       <a href="/{{current_user.type}}/search">Search</a>
       <a href="/{{current_user.type}}/summary">Summary</a>
+      {% if current_user.type != 'admin' %}
+      <a href="/{{current_user.type}}/profile">Profile</a>
+      {% endif %}
       <a href="/logout">Logout</a>
     </nav>
 

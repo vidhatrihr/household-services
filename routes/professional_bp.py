@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, request
 from models import *
 from flask_login import current_user
 from datetime import datetime
-
+from utils import get_avg_ratings
 
 import matplotlib
 from matplotlib import pyplot as plt
@@ -122,6 +122,15 @@ def professional_summary():
       requests_requested=requests_requested, requests_accepted=requests_accepted,
       requests_done=requests_done
   )
+
+
+# ====== profile ======
+
+
+@professional_bp.route('/professional/profile')
+def professional_profile():
+  return render_template('professional_profile.html', professional=current_user.professional,
+                         get_avg_ratings=get_avg_ratings)
 
 
 # ====== accept-request ======

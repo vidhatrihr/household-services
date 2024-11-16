@@ -1,0 +1,25 @@
+<!-- -->
+{% extends "_base.html" %}
+
+<!-- -->
+{% block title %} Profile {% endblock title %}
+
+<!-- -->
+{% block content %}
+<h1>Profile of Professional #{{professional.id}}</h1>
+<h2>Ratings: {{get_avg_ratings(professional)}}</h2>
+
+<section>
+  <h2>
+    Personal Profile
+    <a href="#">Edit</a>
+  </h2>
+  <p>Name: {{professional.user.full_name}}</p>
+  <p>Email: {{professional.user.email}}</p>
+  <p>Address: {{professional.user.address}}</p>
+  <p>Pin Code: {{professional.user.pin_code}}</p>
+  <p>City: {{professional.user.city.name}}</p>
+  <p>Bio: {{professional.bio}}</p>
+  <p>Service Category: {{professional.service_category.name}}</p>
+</section>
+{% endblock content %}

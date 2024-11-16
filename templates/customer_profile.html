@@ -1,0 +1,22 @@
+<!-- -->
+{% extends "_base.html" %}
+
+<!-- -->
+{% block title %} Profile {% endblock title %}
+
+<!-- -->
+{% block content %}
+<h1>Profile of Customer #{{customer.id}}</h1>
+
+<section>
+  <h2>
+    Personal Profile
+    <a href="#">Edit</a>
+  </h2>
+  <p>Name: {{customer.user.full_name}}</p>
+  <p>Email: {{customer.user.email}}</p>
+  <p>Address: {{customer.user.address}}</p>
+  <p>Pin Code: {{customer.user.pin_code}}</p>
+  <p>City: {{customer.user.city.name}}</p>
+</section>
+{% endblock content %}
