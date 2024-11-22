@@ -42,7 +42,8 @@ def logout():
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
   if request.method == 'GET':
-    return render_template('register.html')
+    cities = City.query.all()
+    return render_template('register.html', cities=cities)
 
   elif request.method == 'POST':
     new_customer = Customer(
@@ -68,7 +69,9 @@ def register():
 @auth_bp.route('/register/professional', methods=['GET', 'POST'])
 def register_professional():
   if request.method == 'GET':
-    return render_template('register_professional.html')
+    cities = City.query.all()
+    service_categories = ServiceCategory.query.all()
+    return render_template('register_professional.html', cities=cities, service_categories=service_categories)
 
   elif request.method == 'POST':
     new_professional = Professional(

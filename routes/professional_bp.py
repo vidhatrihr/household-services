@@ -148,6 +148,28 @@ def professional_profile():
                          get_avg_ratings=get_avg_ratings)
 
 
+@professional_bp.route('/professional/edit-profile', methods=['GET', 'POST'])
+@login_required
+def professional_edit_profile():
+  if current_user.type != 'professional':
+    return 'Forbidden', 403
+  if request.method == 'GET':
+    cities = City.query.all()
+    service_categories = ServiceCategory.query.all()
+    return render_template('professional_edit_profile.html', professional=current_user.professional,
+                           get_avg_ratings=get_avg_ratings, cities=cities, service_categories=service_categories)
+  elif request.method == 'POST':
+    current_user.email = request.form.get('email')
+    current_user.full_name = request.form.get('full_name')
+    current_user.city_id = request.form.get('city_id')
+    current_user.address = request.form.get('address')
+    current_user.pin_code = request.form.get('pin_code')
+    current_user.professional.bio = request.form.get('bio')
+    current_user.professional.service_category_id = request.form.get('service_category_id')
+    db.session.commit()
+    return redirect('/professional/profile')
+
+
 # ====== accept-request ======
 
 

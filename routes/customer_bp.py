@@ -75,20 +75,18 @@ def customer_search_results(search_type):
     return 'Forbidden', 403
   """ 
   example url:
-    http://localhost:5000/customer/search-results/services?name=...&pin_code=...
+    http://localhost:5000/customer/search-results/services?name=...
   """
   if search_type == 'services':
-    # get search parameters from query string in url (?name=...&pin_code=...)
+    # get search parameters from query string in url (?name=...)
     name = request.args.get('name')
-    pin_code = request.args.get('pin_code')
-
     # do query
     query = Service.query
     if name:
       query = query.filter(Service.name.ilike(f'%{name}%'))
     services = query.all()
     return render_template('customer_search_results.html', services=services, search_type=search_type)
-    # search with pin_code is pending
+
 
 # ====== summary ======
 
@@ -137,6 +135,24 @@ def customer_profile():
   if current_user.type != 'customer':
     return 'Forbidden', 403
   return render_template('customer_profile.html', customer=current_user.customer)
+
+
+@customer_bp.route('/customer/edit-profile', methods=['GET', 'POST'])
+@login_required
+def customer_edit_profile():
+  if current_user.type != 'customer':
+    return 'Forbidden', 403
+  if request.method == 'GET':
+    cities = City.query.all()
+    return render_template('customer_edit_profile.html', customer=current_user.customer, cities=cities)
+  elif request.method == 'POST':
+    current_user.email = request.form.get('email')
+    current_user.full_name = request.form.get('full_name')
+    current_user.city_id = request.form.get('city_id')
+    current_user.address = request.form.get('address')
+    current_user.pin_code = request.form.get('pin_code')
+    db.session.commit()
+    return redirect('/customer/profile')
 
 # ====== book-service ======
 
