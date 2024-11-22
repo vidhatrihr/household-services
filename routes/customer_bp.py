@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Blueprint, render_template, request, redirect
-from flask_login import current_user
+from flask_login import current_user, login_required
 from models import *
 
 import matplotlib.pyplot as plt
@@ -14,7 +14,10 @@ customer_bp = Blueprint('customer', __name__)
 
 
 @customer_bp.route('/customer/home')
+@login_required
 def customer_home():
+  if current_user.type != 'customer':
+    return 'Forbidden', 403
   customer_id = current_user.customer.id
 
   accepted_requests = ServiceRequest.query.filter_by(
@@ -58,12 +61,18 @@ def customer_home():
 
 
 @customer_bp.route('/customer/search')
+@login_required
 def customer_search():
+  if current_user.type != 'customer':
+    return 'Forbidden', 403
   return render_template('customer_search.html')
 
 
 @customer_bp.route('/customer/search-results/<search_type>')
+@login_required
 def customer_search_results(search_type):
+  if current_user.type != 'customer':
+    return 'Forbidden', 403
   """ 
   example url:
     http://localhost:5000/customer/search-results/services?name=...&pin_code=...
@@ -85,7 +94,10 @@ def customer_search_results(search_type):
 
 
 @customer_bp.route('/customer/summary')
+@login_required
 def customer_summary():
+  if current_user.type != 'customer':
+    return 'Forbidden', 403
   requests_requested = ServiceRequest.query.filter_by(
       customer_id=current_user.customer.id,
       status='requested'
@@ -120,14 +132,20 @@ def customer_summary():
 
 
 @customer_bp.route('/customer/profile')
+@login_required
 def customer_profile():
+  if current_user.type != 'customer':
+    return 'Forbidden', 403
   return render_template('customer_profile.html', customer=current_user.customer)
 
 # ====== book-service ======
 
 
 @customer_bp.route('/customer/book-service/<int:service_id>', methods=['GET', 'POST'])
+@login_required
 def customer_book_service(service_id):
+  if current_user.type != 'customer':
+    return 'Forbidden', 403
   if request.method == 'GET':
     return render_template('customer_book_service.html', service_id=service_id)
 
@@ -149,7 +167,10 @@ def customer_book_service(service_id):
 
 
 @customer_bp.route('/customer/close-request/<int:request_id>', methods=['GET', 'POST'])
+@login_required
 def customer_close_request(request_id):
+  if current_user.type != 'customer':
+    return 'Forbidden', 403
   if request.method == 'GET':
     return render_template('customer_close_request.html', request_id=request_id)
 

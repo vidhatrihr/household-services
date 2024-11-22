@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, request
 from models import *
-from flask_login import current_user
+from flask_login import current_user, login_required
 from datetime import datetime
 from utils import get_avg_ratings
 
@@ -15,7 +15,10 @@ professional_bp = Blueprint('professional', __name__)
 
 
 @professional_bp.route('/professional/home')
+@login_required
 def professional_home():
+  if current_user.type != 'professional':
+    return 'Forbidden', 403
   professional = current_user.professional
   city_id = professional.user.city_id
   category_id = professional.service_category_id
@@ -48,13 +51,19 @@ def professional_home():
 
 
 @professional_bp.route('/professional/search')
+@login_required
 def professional_search():
+  if current_user.type != 'professional':
+    return 'Forbidden', 403
   services = Service.query.filter_by(service_category=current_user.professional.service_category)
   return render_template('professional_search.html', services=services)
 
 
 @professional_bp.route('/professional/search-results/<search_type>')
+@login_required
 def professional_search_results(search_type):
+  if current_user.type != 'professional':
+    return 'Forbidden', 403
   """ 
   example url:
     http://localhost:5000/professional/search-results/services?booking_date=yyyy-mm-dd&pin_code=...&service_id=...
@@ -88,7 +97,10 @@ def professional_search_results(search_type):
 
 
 @professional_bp.route('/professional/summary')
+@login_required
 def professional_summary():
+  if current_user.type != 'professional':
+    return 'Forbidden', 403
   stars = {}  # {1: x, ... 5: x}, x is count of requests with that many stars
   for i in range(1, 6):
     stars[i] = ServiceRequest.query.filter_by(ratings=i, professional=current_user.professional).count()
@@ -128,7 +140,10 @@ def professional_summary():
 
 
 @professional_bp.route('/professional/profile')
+@login_required
 def professional_profile():
+  if current_user.type != 'professional':
+    return 'Forbidden', 403
   return render_template('professional_profile.html', professional=current_user.professional,
                          get_avg_ratings=get_avg_ratings)
 
@@ -137,7 +152,10 @@ def professional_profile():
 
 
 @professional_bp.route('/professional/accept-request/<int:request_id>')
+@login_required
 def professional_accept_request(request_id):
+  if current_user.type != 'professional':
+    return 'Forbidden', 403
   request = ServiceRequest.query.filter_by(id=request_id).first()
   request.status = 'accepted'
   request.professional = current_user.professional

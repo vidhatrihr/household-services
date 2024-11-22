@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect
+from flask_login import login_required, current_user
 from models import *
 from utils import *
 
@@ -15,7 +16,10 @@ admin_bp = Blueprint('admin', __name__)
 
 
 @admin_bp.route('/admin/home')
+@login_required
 def admin_home():
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   services = Service.query.all()
   professionals = Professional.query.all()
   customers = Customer.query.all()
@@ -32,12 +36,18 @@ def admin_home():
 
 
 @admin_bp.route('/admin/search')
+@login_required
 def admin_search():
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   return render_template('admin_search.html')
 
 
 @admin_bp.route('/admin/search-results/<search_type>')
+@login_required
 def admin_search_results(search_type):
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   """ 
   example urls:
     http://localhost:5000/admin/search-results/customers?full_name=...&pin_code=...
@@ -75,7 +85,10 @@ def admin_search_results(search_type):
 
 
 @admin_bp.route('/admin/summary')
+@login_required
 def admin_summary():
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   stars = {}  # {1: x, ... 5: x}, x is count of requests with that many stars
   for i in range(1, 6):
     stars[i] = ServiceRequest.query.filter_by(ratings=i).count()
@@ -114,19 +127,28 @@ def admin_summary():
 
 
 @admin_bp.route('/admin/service-details/<int:service_id>')
+@login_required
 def admin_service_details(service_id):
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   service = Service.query.filter_by(id=service_id).first()
   return render_template('admin_service_details.html', service=service)
 
 
 @admin_bp.route('/admin/customer-details/<int:customer_id>')
+@login_required
 def admin_customer_details(customer_id):
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   customer = Customer.query.filter_by(id=customer_id).first()
   return render_template('admin_customer_details.html', customer=customer)
 
 
 @admin_bp.route('/admin/professional-details/<int:professional_id>')
+@login_required
 def admin_professional_details(professional_id):
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   professional = Professional.query.filter_by(id=professional_id).first()
   return render_template(
       'admin_professional_details.html',
@@ -138,7 +160,10 @@ def admin_professional_details(professional_id):
 
 
 @admin_bp.route('/admin/approve-professional/<int:professional_id>')
+@login_required
 def approve_professional(professional_id):
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   professional = Professional.query.filter_by(id=professional_id).first()
   professional.is_approved = True  # set true will update in professionals table
   db.session.commit()
@@ -146,7 +171,10 @@ def approve_professional(professional_id):
 
 
 @admin_bp.route('/admin/block-professional/<int:professional_id>')
+@login_required
 def block_professional(professional_id):
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   professional = Professional.query.filter_by(id=professional_id).first()
   professional.is_approved = False
   db.session.commit()
@@ -154,7 +182,10 @@ def block_professional(professional_id):
 
 
 @admin_bp.route('/admin/delete-professional/<int:professional_id>')
+@login_required
 def delete_professional(professional_id):
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   professional = Professional.query.filter_by(id=professional_id).first()
   db.session.delete(professional)
   db.session.commit()
@@ -165,7 +196,10 @@ def delete_professional(professional_id):
 
 
 @admin_bp.route('/admin/add-service', methods=['GET', 'POST'])
+@login_required
 def add_service():
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   if request.method == 'GET':
     service_categories = ServiceCategory.query.all()
     return render_template('admin_add_service.html', service_categories=service_categories)
@@ -182,7 +216,10 @@ def add_service():
 
 
 @admin_bp.route('/admin/edit-service/<int:service_id>', methods=['GET', 'POST'])
+@login_required
 def edit_service(service_id):
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   # get `service object` for <int:service_id> path variable
   service = Service.query.filter_by(id=service_id).first()
 
@@ -199,7 +236,10 @@ def edit_service(service_id):
 
 
 @admin_bp.route('/admin/delete-service/<int:service_id>')
+@login_required
 def delete_service(service_id):
+  if current_user.type != 'admin':
+    return 'Forbidden', 403
   # get the `service object`
   service = Service.query.filter_by(id=service_id).first()
 
