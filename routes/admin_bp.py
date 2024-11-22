@@ -140,7 +140,7 @@ def admin_professional_details(professional_id):
 @admin_bp.route('/admin/approve-professional/<int:professional_id>')
 def approve_professional(professional_id):
   professional = Professional.query.filter_by(id=professional_id).first()
-  professional.is_approved = True
+  professional.is_approved = True  # set true will update in professionals table
   db.session.commit()
   return redirect('/admin/home')
 

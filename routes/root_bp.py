@@ -6,6 +6,7 @@ root_bp = Blueprint('root', __name__)
 
 @root_bp.route('/')
 def root():
+  # check if already logged in; property from the class UserMixin
   if current_user.is_authenticated:
     if current_user.type == 'admin':
       return redirect('/admin/home')

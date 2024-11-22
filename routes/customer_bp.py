@@ -79,7 +79,7 @@ def customer_search_results(search_type):
       query = query.filter(Service.name.ilike(f'%{name}%'))
     services = query.all()
     return render_template('customer_search_results.html', services=services, search_type=search_type)
-
+    # search with pin_code is pending
 
 # ====== summary ======
 

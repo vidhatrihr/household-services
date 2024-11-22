@@ -15,17 +15,15 @@ def login():
     return redirect('/')
 
   if request.method == 'GET':
-    return render_template('login.html', error=False)
+    return render_template('login.html', error=False)      # if error is true, an error message will be shown
 
   elif request.method == 'POST':
     email = request.form.get('email')
     password = request.form.get('password')
     user = User.query.filter_by(email=email).first()
-    if user:
-      if user.password == password:
-        login_user(user)
-        return redirect('/')
-      return render_template('login.html', error=True)
+    if user and user.password == password:  # to be valid user it's password and email should match
+      login_user(user)
+      return redirect('/')
     return render_template('login.html', error=True)
 
 
@@ -60,8 +58,8 @@ def register():
     )
     db.session.add(new_customer)
     db.session.commit()
-    login_user(new_customer.user)
-    return redirect('/')
+    login_user(new_customer.user)  # this function expects a user obj not a customer obj
+    return redirect('/customer/home')
 
 
 # ======== register professional ========
@@ -89,4 +87,4 @@ def register_professional():
     db.session.add(new_professional)
     db.session.commit()
     login_user(new_professional.user)
-    return redirect('/')
+    return redirect('/professional/home')
