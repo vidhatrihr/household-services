@@ -3,4 +3,4 @@ def get_avg_ratings(professional):
   avg_ratings = 0.0
   if len(ratings) > 0:
     avg_ratings = sum(ratings)/len(ratings)
-  return avg_ratings
+  return round(avg_ratings, 2)

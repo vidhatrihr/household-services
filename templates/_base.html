@@ -54,7 +54,11 @@
       <a href="/logout">Logout</a>
     </nav>
 
+    {% if current_user.type == 'professional' and current_user.professional.is_approved == False %}
+    <p>You are not approved. Please contact admin to approve your account.</p>
+    {% else %}
     <main>{% block content %} {% endblock content %}</main>
+    {% endif %}
 
     <!-- bootstrap javascript at the end of body -->
     <script
