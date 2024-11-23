@@ -1,4 +1,5 @@
 from models import *
+from werkzeug.security import generate_password_hash
 
 
 def populate():
@@ -7,13 +8,13 @@ def populate():
   db.session.add(City(name='Mumbai'))
   db.session.add(City(name='Delhi'))
   db.session.add(City(name='Bengaluru'))
-#   db.session.add(City(name='Pune'))
+  # db.session.add(City(name='Pune'))
 
   # create admin
   db.session.add(Admin(
       user=User(
           email='admin1@example.com',
-          password='12345',
+          password=generate_password_hash('12345'),
           type='admin',
           full_name='admin',
           address='xyz address',
@@ -26,7 +27,7 @@ def populate():
   db.session.add(Customer(
       user=User(
           email='customer1@example.com',
-          password='12345',
+          password=generate_password_hash('12345'),
           type='customer',
           full_name='Charul Sharma',
           address='xyz address',
@@ -37,7 +38,7 @@ def populate():
   db.session.add(Customer(
       user=User(
           email='customer2@example.com',
-          password='12345',
+          password=generate_password_hash('12345'),
           type='customer',
           full_name='Chandrashekar',
           address='xyz address',
@@ -48,7 +49,7 @@ def populate():
   db.session.add(Customer(
       user=User(
           email='customer3@example.com',
-          password='12345',
+          password=generate_password_hash('12345'),
           type='customer',
           full_name='Charan Kumar',
           address='xyz address',
@@ -59,7 +60,7 @@ def populate():
   db.session.add(Customer(
       user=User(
           email='customer4@example.com',
-          password='12345',
+          password=generate_password_hash('12345'),
           type='customer',
           full_name='Chirag Chopra',
           address='xyz address',
@@ -75,7 +76,7 @@ def populate():
       bio='xyz bio',
       user=User(
           email='professional1@example.com',
-          password='12345',
+          password=generate_password_hash('12345'),
           type='professional',
           full_name='Pranav Patel',
           address='xyz address',
@@ -89,7 +90,7 @@ def populate():
       is_approved=True,
       user=User(
           email='professional2@example.com',
-          password='12345',
+          password=generate_password_hash('12345'),
           type='professional',
           full_name='Priya Verma',
           address='xyz address',
@@ -103,7 +104,7 @@ def populate():
       is_approved=True,
       user=User(
           email='professional3@example.com',
-          password='12345',
+          password=generate_password_hash('12345'),
           type='professional',
           full_name='Priti Phadke',
           address='xyz address',
@@ -117,7 +118,7 @@ def populate():
       is_approved=True,
       user=User(
           email='professional4@example.com',
-          password='12345',
+          password=generate_password_hash('12345'),
           type='professional',
           full_name='Pavan Sharma',
           address='xyz address',
@@ -131,7 +132,7 @@ def populate():
       is_approved=False,
       user=User(
           email='professional5@example.com',
-          password='12345',
+          password=generate_password_hash('12345'),
           type='professional',
           full_name='Piyush Pathak',
           address='xyz address',

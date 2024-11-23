@@ -1,57 +1,63 @@
 {% extends "_base.html" %}
 
 <!-- -->
-{% block title %} Book Service {% endblock title %}
+{% block title %}
+  Book Service
+{% endblock title %}
 
 <!-- -->
 {% block content %}
-<style>
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    justify-content: center;
-  }
+  <style>
+      body {
+          font-family: Arial, Helvetica, sans-serif;
+      }
 
-  h1 {
-    text-align: center;
-  }
+      main {
+          text-align: center;
+      }
 
-  p {
-    text-align: center;
-    color: red;
-  }
+      h1 {
+          text-align: center;
+      }
 
-  form {
-    padding: 20px;
-    border: 2px solid #333;
-    border-radius: 10px;
-  }
+      p {
+          text-align: center;
+          color: red;
+      }
 
-  div {
-    margin-bottom: 10px;
-  }
-</style>
+      form {
+          margin: 0 auto;
+          display: inline-block;
+          padding: 20px;
+          border: 2px solid #333;
+          border-radius: 10px;
+      }
 
-<h1>Book Service</h1>
+      div {
+          margin-bottom: 10px;
+      }
+  </style>
 
-<form action="/customer/book-service/{{service_id}}" method="post">
-  <div>
-    <label>
-      Description:
-      <input type="text" name="description" />
-    </label>
-  </div>
+  <h1>Book Service</h1>
 
-  <div>
-    <label>
-      Booking Date:
-      <input type="date" name="booking_date" />
-    </label>
-  </div>
+  <form action="/customer/book-service/{{ service_id }}" method="post">
+    <div>
+      <label>
+        Description:
+        <input type="text" name="description"class="form-control" />
+      </label>
+    </div>
 
-  <div>
-    <input type="submit" value="Book Service" />
-  </div>
-</form>
+    <div>
+      <label>
+        Booking Date:
+        <input type="date" name="booking_date" required class="form-control" />
+      </label>
+    </div>
+
+    <div>
+      <input type="submit" value="Book Service" class="btn btn-primary w-100" />
+    </div>
+  </form>
 
 {% endblock content %}

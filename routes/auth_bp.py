@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect
 from flask_login import login_user, current_user, logout_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from models import *
 
 
@@ -21,7 +22,8 @@ def login():
     email = request.form.get('email')
     password = request.form.get('password')
     user = User.query.filter_by(email=email).first()
-    if user and user.password == password:  # to be valid user it's password and email should match
+    if user and check_password_hash(user.password, password):  # user.password is coming from db and is hashed
+      # to be valid user it's password and email should match
       login_user(user)
       return redirect('/')
     return render_template('login.html', error=True)
@@ -49,7 +51,7 @@ def register():
     new_customer = Customer(
         user=User(
             email=request.form.get('email'),
-            password=request.form.get('password'),
+            password=generate_password_hash(request.form.get('password')),
             type='customer',
             full_name=request.form.get('full_name'),
             address=request.form.get('address'),
@@ -79,7 +81,7 @@ def register_professional():
         bio=request.form.get('bio'),
         user=User(
             email=request.form.get('email'),
-            password=request.form.get('password'),
+            password=generate_password_hash(request.form.get('password')),
             type='professional',
             full_name=request.form.get('full_name'),
             address=request.form.get('address'),
