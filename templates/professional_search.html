@@ -45,7 +45,7 @@
     <div>
       <label>
         By Service:
-        <select name="service_id">
+        <select name="service_id" class="form-control">
           <option value="" selected>Select a service</option>
           {% for service in services %}
           <option value="{{service.id}}">{{service.name}}</option>

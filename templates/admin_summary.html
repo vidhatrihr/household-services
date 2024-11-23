@@ -8,11 +8,11 @@
 <h1>Welcome to summary page</h1>
 {% if total_stars > 0 %}
 <ul>
-  <li>1 Stars: {{(stars.1 / total_stars * 100) | round(2)}}%</li>
-  <li>2 Stars: {{(stars.2 / total_stars * 100) | round(2)}}%</li>
-  <li>3 Stars: {{(stars.3 / total_stars * 100) | round(2)}}%</li>
-  <li>4 Stars: {{(stars.4 / total_stars * 100) | round(2)}}%</li>
-  <li>5 Stars: {{(stars.5 / total_stars * 100) | round(2)}}%</li>
+  <li><strong>1 Stars:</strong> {{(stars.1 / total_stars * 100) | round(2)}}%</li>
+  <li><strong>2 Stars:</strong> {{(stars.2 / total_stars * 100) | round(2)}}%</li>
+  <li><strong>3 Stars:</strong> {{(stars.3 / total_stars * 100) | round(2)}}%</li>
+  <li><strong>4 Stars:</strong> {{(stars.4 / total_stars * 100) | round(2)}}%</li>
+  <li><strong>5 Stars:</strong> {{(stars.5 / total_stars * 100) | round(2)}}%</li>
 </ul>
 <h2>Overall Customer ratings</h2>
 <img src="/static/overall_customer_ratings.png" alt="Overall Customer ratings" />
@@ -22,9 +22,9 @@
 
 <h2>Service Request Summary</h2>
 <ul>
-  <li>Requested: {{requests_requested}}</li>
-  <li>Accepted: {{requests_accepted}}</li>
-  <li>Done: {{requests_done}}</li>
+  <li><strong>Requested:</strong> {{requests_requested}}</li>
+  <li><strong>Accepted:</strong> {{requests_accepted}}</li>
+  <li><strong>Done:</strong> {{requests_done}}</li>
 </ul>
 <img src="/static/service_request_summary.png" alt="Service Request Summary" />
 {% endblock content %}
