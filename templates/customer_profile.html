@@ -1,22 +1,31 @@
-<!-- -->
 {% extends "_base.html" %}
 
-<!-- -->
-{% block title %} Profile {% endblock title %}
+{% block title %}
+  Profile
+{% endblock title %}
 
-<!-- -->
 {% block content %}
-<h1>Profile of Customer #{{customer.id}}</h1>
+  <h1>Profile of Customer #{{ customer.id }}</h1>
 
-<section>
-  <h2>
-    Personal Profile
-    <a href="/customer/edit-profile">Edit</a>
-  </h2>
-  <p><strong>Name:</strong> {{customer.user.full_name}}</p>
-  <p><strong>Email:</strong> {{customer.user.email}}</p>
-  <p><strong>Address:</strong> {{customer.user.address}}</p>
-  <p><strong>Pin Code:</strong> {{customer.user.pin_code}}</p>
-  <p><strong>City:</strong> {{customer.user.city.name}}</p>
-</section>
+  <section>
+    <h2>
+      Personal Profile
+      <a href="/customer/edit-profile">Edit</a>
+    </h2>
+    <p>
+      <strong>Name:</strong> {{ customer.user.full_name }}
+    </p>
+    <p>
+      <strong>Email:</strong> {{ customer.user.email }}
+    </p>
+    <p>
+      <strong>Address:</strong> {{ customer.user.address }}
+    </p>
+    <p>
+      <strong>Pin Code:</strong> {{ customer.user.pin_code }}
+    </p>
+    <p>
+      <strong>City:</strong> {{ customer.user.city.name }}
+    </p>
+  </section>
 {% endblock content %}

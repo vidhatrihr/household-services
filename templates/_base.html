@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
       {% block title %}
-
       {% endblock title %}
     </title>
 
@@ -14,17 +13,16 @@
           rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous" />
+
+    <!-- css shared on all dashboard pages -->
     <style>
         body {
-            margin: 10px 10px;
-            padding: 10px;
-            line-height: 5vh;
+            padding: 20px;
+            line-height: 2rem;
             color: #403a34;
             background-color: floralwhite;
             font-family: Arial, Helvetica, sans-serif;
         }
-
-
 
         h1 {
             color: dodgerblue;
@@ -39,11 +37,24 @@
         }
 
         a {
-            text-decoration: none;
-            border-radius: 5px;
             padding: 5px;
+            border-radius: 5px;
             color: floralwhite;
             background-color: #619bf1;
+            text-decoration: none;
+        }
+
+        /* css for pages with a form */
+        form {
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        form div {
+            margin-bottom: 10px;
         }
     </style>
   </head>
@@ -59,11 +70,12 @@
     </nav>
 
     {% if current_user.type == 'professional' and current_user.professional.is_approved == False %}
-      <p>You are not approved. Please contact admin to approve your account.</p>
+      <p style='color: red;'>
+        You are not approved. Please contact admin to approve your account.
+      </p>
     {% else %}
       <main>
         {% block content %}
-
         {% endblock content %}
       </main>
     {% endif %}

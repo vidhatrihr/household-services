@@ -2,44 +2,46 @@
 {% extends "_base.html" %}
 
 <!-- -->
-{% import "_tables.html" as tables %}
+{% import "_tables.html" as tables with context %}
 
 <!-- -->
-{% block title %} Home {% endblock title %}
+{% block title %}
+  Home
+{% endblock title %}
 
 <!-- -->
 {% block content %}
-<h1>Welcome to Customer Dashboard</h1>
+  <h1>Welcome to Customer Dashboard</h1>
 
-<section>
-  <h2>Looking for?</h2>
-  {% for category in categories %}
-  <div>
-    <h3>{{category.name}}</h3>
-    <ul>
-      {% for service in category.services %}
-      <li>
-        {{service.name}}
-        <a href="/customer/book-service/{{service.id}}">Book</a>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% endfor %}
-</section>
+  <section>
+    <h2>Looking for?</h2>
+    {% for category in categories %}
+      <div>
+        <h3>{{ category.name }}</h3>
+        <ul>
+          {% for service in category.services %}
+            <li>
+              {{ service.name }}
+              <a href="/customer/book-service/{{ service.id }}">Book</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </section>
 
-<section>
-  <h2>Accepted requests:</h2>
-  {{ tables.service_requests_table(accepted_requests, can_close=True) }}
-</section>
+  <section>
+    <h2>Accepted requests:</h2>
+    {{ tables.service_requests_table(accepted_requests, can_close=True) }}
+  </section>
 
-<section>
-  <h2>Requests yet to be accepted:</h2>
-  {{ tables.service_requests_table(pending_requests) }}
-</section>
+  <section>
+    <h2>Requests yet to be accepted:</h2>
+    {{ tables.service_requests_table(pending_requests) }}
+  </section>
 
-<section>
-  <h2>Closed requests:</h2>
-  {{ tables.service_requests_table(past_requests) }}
-</section>
+  <section>
+    <h2>Closed requests:</h2>
+    {{ tables.service_requests_table(past_requests) }}
+  </section>
 {% endblock content %}

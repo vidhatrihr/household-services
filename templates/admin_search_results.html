@@ -2,23 +2,27 @@
 {% extends "_base.html" %}
 
 <!-- -->
-{% import "_tables.html" as tables %}
+{% import "_tables.html" as tables with context %}
 
 <!-- -->
-{% block title %} Search Results {% endblock title %}
+{% block title %}
+  Search Results
+{% endblock title %}
 
 <!-- -->
 {% block content %}
-<h1>Search Results</h1>
+  <h1>Search Results</h1>
 
-{% if search_type == 'professionals' %}
-<section>
-  <h2>Professionals</h2>
-  {{ tables.professionals_table(professionals, get_avg_ratings) }}
-</section>
-{% else %}
-<section>
-  <h2>Customers</h2>
-  {{ tables.customers_table(customers) }}
-</section>
-{% endif %} {% endblock content %}
+  {% if search_type == 'professionals' %}
+    <section>
+      <h2>Professionals</h2>
+      {{ tables.professionals_table(professionals, get_avg_ratings) }}
+    </section>
+  {% else %}
+    <section>
+      <h2>Customers</h2>
+      {{ tables.customers_table(customers) }}
+    </section>
+  {% endif %}
+
+{% endblock content %}

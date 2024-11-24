@@ -1,59 +1,52 @@
 {% extends "_base.html" %}
 
-<!-- -->
-{% block title %} Close Request {% endblock title %}
+{% block title %}
+  Close Request
+{% endblock title %}
 
-<!-- -->
 {% block content %}
-<style>
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    justify-content: center;
-  }
+  <h1>Close Request</h1>
 
-  h1 {
-    text-align: center;
-  }
+  <form action="/customer/close-request/{{ request_id }}" method="post">
+    <div>
+      <label>Rate your experience</label>
+      <br />
+      <label>
+        <input type="radio" name="stars" value="5" />
+        ⭐⭐⭐⭐⭐
+      </label>
+      <br />
+      <label>
+        <input type="radio" name="stars" value="4" />
+        ⭐⭐⭐⭐
+      </label>
+      <br />
+      <label>
+        <input type="radio" name="stars" value="3" />
+        ⭐⭐⭐
+      </label>
+      <br />
+      <label>
+        <input type="radio" name="stars" value="2" />
+        ⭐⭐
+      </label>
+      <br />
+      <label>
+        <input type="radio" name="stars" value="1" />
+        ⭐
+      </label>
+    </div>
 
-  p {
-    text-align: center;
-    color: red;
-  }
+    <div>
+      <label>
+        Remarks:
+        <input class='form-control' type="text" name="remarks" />
+      </label>
+    </div>
 
-  form {
-    padding: 20px;
-    border: 2px solid #333;
-    border-radius: 10px;
-  }
-
-  div {
-    margin-bottom: 10px;
-  }
-</style>
-
-<h1>Close Request</h1>
-
-<form action="/customer/close-request/{{request_id}}" method="post">
-  <div>
-    <label>Rate your experience</label><br />
-    <label><input type="radio" name="stars" value="5" /> ⭐⭐⭐⭐⭐</label><br />
-    <label><input type="radio" name="stars" value="4" /> ⭐⭐⭐⭐</label><br />
-    <label><input type="radio" name="stars" value="3" /> ⭐⭐⭐</label><br />
-    <label><input type="radio" name="stars" value="2" /> ⭐⭐</label><br />
-    <label><input type="radio" name="stars" value="1" /> ⭐</label>
-  </div>
-
-  <div>
-    <label>
-      Remarks:
-      <input type="text" name="remarks" />
-    </label>
-  </div>
-
-  <div>
-    <input type="submit" value="Close Request" />
-  </div>
-</form>
+    <div>
+      <input class='btn btn-primary w-100' type="submit" value="Close Request" />
+    </div>
+  </form>
 
 {% endblock content %}

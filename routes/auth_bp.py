@@ -16,14 +16,17 @@ def login():
     return redirect('/')
 
   if request.method == 'GET':
-    return render_template('login.html', error=False)      # if error is true, an error message will be shown
+    # error=False: if error is true, an error message will be shown
+    return render_template('login.html', error=False)
 
   elif request.method == 'POST':
     email = request.form.get('email')
     password = request.form.get('password')
     user = User.query.filter_by(email=email).first()
-    if user and check_password_hash(user.password, password):  # user.password is coming from db and is hashed
-      # to be valid user it's password and email should match
+
+    # user.password is coming from db and is hashed
+    # to be valid user it's password and email should match
+    if user and check_password_hash(user.password, password):
       login_user(user)
       return redirect('/')
     return render_template('login.html', error=True)

@@ -23,8 +23,9 @@ def create_app():
 
   # make tables and populate
   with app.app_context():
-    db.create_all()
-    # populate_db.populate()
+    db.create_all()  # create all tables
+    if Customer.query.count() == 0:  # check if no data in db
+      populate_db.populate()
 
   # setup flask login
   login_manager = LoginManager()
@@ -32,7 +33,7 @@ def create_app():
 
   @login_manager.user_loader
   def load_user(user_id):
-    """ take user_id and return the corresponding user object """
+    """ take int user_id and return the corresponding user object """
     return User.query.filter_by(id=user_id).first()
 
   return app

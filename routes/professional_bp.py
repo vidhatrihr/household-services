@@ -170,6 +170,18 @@ def professional_edit_profile():
     return redirect('/professional/profile')
 
 
+# ====== customer-details ======
+
+
+@professional_bp.route('/professional/customer-details/<int:customer_id>')
+@login_required
+def professional_customer_details(customer_id):
+  if current_user.type != 'professional':
+    return 'Forbidden', 403
+  customer = Customer.query.filter_by(id=customer_id).first()
+  return render_template('professional_customer_details.html', customer=customer)
+
+
 # ====== accept-request ======
 
 

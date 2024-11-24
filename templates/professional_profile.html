@@ -1,25 +1,40 @@
-<!-- -->
 {% extends "_base.html" %}
 
-<!-- -->
-{% block title %} Profile {% endblock title %}
+{% block title %}
+  Profile
+{% endblock title %}
 
-<!-- -->
 {% block content %}
-<h1>Profile of Professional #{{professional.id}}</h1>
-<h5><strong>Ratings: </strong>{{get_avg_ratings(professional)}}</h5>
-
-<section>
+  <h1>Profile of Professional #{{ professional.id }}</h1>
   <h2>
-    Personal Profile
-    <a href="/professional/edit-profile">Edit</a>
+    <strong>Ratings: {{ get_avg_ratings(professional) }}</strong>
   </h2>
-  <p><strong>Name:</strong> {{professional.user.full_name}}</p>
-  <p><strong>Email:</strong> {{professional.user.email}}</p>
-  <p><strong>Address:</strong> {{professional.user.address}}</p>
-  <p><strong>Pin Code:</strong> {{professional.user.pin_code}}</p>
-  <p><strong>City:</strong> {{professional.user.city.name}}</p>
-  <p><strong>Bio:</strong> {{professional.bio}}</p>
-  <p><strong>Service Category:</strong> {{professional.service_category.name}}</p>
-</section>
+
+  <section>
+    <h2>
+      Personal Profile
+      <a href="/professional/edit-profile">Edit</a>
+    </h2>
+    <p>
+      <strong>Name:</strong> {{ professional.user.full_name }}
+    </p>
+    <p>
+      <strong>Email:</strong> {{ professional.user.email }}
+    </p>
+    <p>
+      <strong>Address:</strong> {{ professional.user.address }}
+    </p>
+    <p>
+      <strong>Pin Code:</strong> {{ professional.user.pin_code }}
+    </p>
+    <p>
+      <strong>City:</strong> {{ professional.user.city.name }}
+    </p>
+    <p>
+      <strong>Bio:</strong> {{ professional.bio }}
+    </p>
+    <p>
+      <strong>Service Category:</strong> {{ professional.service_category.name }}
+    </p>
+  </section>
 {% endblock content %}

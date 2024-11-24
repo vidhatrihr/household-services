@@ -1,42 +1,24 @@
 {% extends "_base.html" %}
 
 <!-- -->
-{% block title %} Search {% endblock title %}
+{% block title %}
+  Search
+{% endblock title %}
 
 <!-- -->
 {% block content %}
-<style>
-  form {
-    width: 400px;
-    padding: 20px;
-    border: 2px solid #333;
-    border-radius: 10px;
-  }
+  <h1>Welcome to search page</h1>
 
-  form div {
-    margin-bottom: 10px;
-  }
-
-  section {
-    margin-top: 50px;
-    display: flex;
-    gap: 10px;
-    justify-content: space-evenly;
-  }
-</style>
-
-<h1>Welcome to search page</h1>
-
-<section>
-  <form action="/customer/search-results/services">
-    <h2>Search Services</h2>
-    <div>
-      <label>
-        By Name:
-        <input type="text" name="name" class="form-control" />
-      </label>
-    </div>
-    <input type="submit" value="Search" class="btn btn-primary w-100" />
-  </form>
-</section>
+  <section>
+    <form action="/customer/search-results/services">
+      <h2>Search Services</h2>
+      <div>
+        <label>
+          By Name:
+          <input type="text" name="name" class="form-control" />
+        </label>
+      </div>
+      <input type="submit" value="Search" class="btn btn-primary w-100" />
+    </form>
+  </section>
 {% endblock content %}

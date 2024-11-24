@@ -2,18 +2,22 @@
 {% extends "_base.html" %}
 
 <!-- -->
-{% import "_tables.html" as tables %}
+{% import "_tables.html" as tables with context %}
 
 <!-- -->
-{% block title %} Search Results {% endblock title %}
+{% block title %}
+  Search Results
+{% endblock title %}
 
 <!-- -->
 {% block content %}
-<h1>Search Results</h1>
+  <h1>Search Results</h1>
 
-{% if search_type == 'accepted-requests' %}
-<section>
-  <h2>Service Requests</h2>
-  {{ tables.service_requests_table(service_requests, can_accept=True) }}
-</section>
-{% endif %} {% endblock content %}
+  {% if search_type == 'accepted-requests' %}
+    <section>
+      <h2>Service Requests</h2>
+      {{ tables.service_requests_table(service_requests, can_accept=True) }}
+    </section>
+  {% endif %}
+
+{% endblock content %}

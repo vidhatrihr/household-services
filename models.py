@@ -1,3 +1,8 @@
+"""
+ER Diagram:
+https://editor.ponyorm.com/user/DB15/household_services/designer
+"""
+
 from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
@@ -15,7 +20,7 @@ class User(db.Model, UserMixin):
   id = Column(Integer, primary_key=True, autoincrement=True)
   email = Column(String, unique=True)
   password = Column(String)
-  type = Column(String)
+  type = Column(String)  # admin, professional, customer
   full_name = Column(String)
   address = Column(String)
   pin_code = Column(String)

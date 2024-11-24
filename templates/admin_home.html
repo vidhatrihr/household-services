@@ -2,33 +2,35 @@
 {% extends "_base.html" %}
 
 <!-- -->
-{% import "_tables.html" as tables %}
+{% import "_tables.html" as tables with context %}
 
 <!-- -->
-{% block title %} Home {% endblock title %}
+{% block title %}
+  Home
+{% endblock title %}
 
 <!-- -->
 {% block content %}
-<h1>Welcome to admin dashboard</h1>
+  <h1>Welcome to admin dashboard</h1>
 
-<section>
-  <h2>Services</h2>
-  {{ tables.services_table(services, can_actions=True) }}
-  <a href="/admin/add-service">Add Service</a>
-</section>
+  <section>
+    <h2>Services</h2>
+    {{ tables.services_table(services, can_actions=True) }}
+    <a href="/admin/add-service">Add Service</a>
+  </section>
 
-<section>
-  <h2>Professionals</h2>
-  {{ tables.professionals_table(professionals, get_avg_ratings) }}
-</section>
+  <section>
+    <h2>Professionals</h2>
+    {{ tables.professionals_table(professionals, get_avg_ratings) }}
+  </section>
 
-<section>
-  <h2>Customers</h2>
-  {{ tables.customers_table(customers) }}
-</section>
+  <section>
+    <h2>Customers</h2>
+    {{ tables.customers_table(customers) }}
+  </section>
 
-<section>
-  <h2>Service Requests</h2>
-  {{ tables.service_requests_table(service_requests) }}
-</section>
+  <section>
+    <h2>Service Requests</h2>
+    {{ tables.service_requests_table(service_requests) }}
+  </section>
 {% endblock content %}

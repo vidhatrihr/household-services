@@ -1,30 +1,50 @@
 {% extends "_base.html" %}
 
-<!-- -->
-{% block title %} Summary {% endblock title %}
+{% block title %}
+  Summary
+{% endblock title %}
 
-<!-- -->
 {% block content %}
-<h1>Welcome to summary page</h1>
-{% if total_stars > 0 %}
-<ul>
-  <li><strong>1 Stars:</strong> {{(stars.1 / total_stars * 100) | round(2)}}%</li>
-  <li><strong>2 Stars:</strong> {{(stars.2 / total_stars * 100) | round(2)}}%</li>
-  <li><strong>3 Stars:</strong> {{(stars.3 / total_stars * 100) | round(2)}}%</li>
-  <li><strong>4 Stars:</strong> {{(stars.4 / total_stars * 100) | round(2)}}%</li>
-  <li><strong>5 Stars:</strong> {{(stars.5 / total_stars * 100) | round(2)}}%</li>
-</ul>
-<h2>Overall Customer ratings</h2>
-<img src="/static/overall_customer_ratings.png" alt="Overall Customer ratings" />
-{% else %}
-<p>No ratings given yet.</p>
-{% endif %}
+  <h1>Welcome to summary page</h1>
+  {% if total_stars > 0 %}
+    <ul>
+      <li>
+        <strong>1 Stars:</strong> {{ (stars.1 / total_stars * 100) | round(2) }}%
+      </li>
+      <li>
+        <strong>2 Stars:</strong> {{ (stars.2 / total_stars * 100) | round(2) }}%
+      </li>
+      <li>
+        <strong>3 Stars:</strong> {{ (stars.3 / total_stars * 100) | round(2) }}%
+      </li>
+      <li>
+        <strong>4 Stars:</strong> {{ (stars.4 / total_stars * 100) | round(2) }}%
+      </li>
+      <li>
+        <strong>5 Stars:</strong> {{ (stars.5 / total_stars * 100) | round(2) }}%
+      </li>
+    </ul>
+    <h2>Overall Customer ratings</h2>
+    <img src="/static/overall_customer_ratings.png"
+         alt="Overall Customer ratings" />
+  {% else %}
+    <p>
+      <strong>No ratings given yet.</strong>
+    </p>
+  {% endif %}
 
-<h2>Service Request Summary</h2>
-<ul>
-  <li><strong>Requested:</strong> {{requests_requested}}</li>
-  <li><strong>Accepted:</strong> {{requests_accepted}}</li>
-  <li><strong>Done:</strong> {{requests_done}}</li>
-</ul>
-<img src="/static/service_request_summary.png" alt="Service Request Summary" />
+  <h2>Service Request Summary</h2>
+  <ul>
+    <li>
+      <strong>Requested:</strong> {{ requests_requested }}
+    </li>
+    <li>
+      <strong>Accepted:</strong> {{ requests_accepted }}
+    </li>
+    <li>
+      <strong>Done:</strong> {{ requests_done }}
+    </li>
+  </ul>
+  <img src="/static/service_request_summary.png"
+       alt="Service Request Summary" />
 {% endblock content %}

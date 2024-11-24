@@ -1,17 +1,24 @@
 {% extends "_base.html" %}
 
-<!-- -->
-{% block title %} Summary {% endblock title %}
+{% block title %}
+  Summary
+{% endblock title %}
 
-<!-- -->
 {% block content %}
-<h1>Welcome to summary page</h1>
+  <h1>Welcome to summary page</h1>
 
-<h2>Service Request Summary</h2>
-<ul>
-  <li><strong>Requested:</strong> {{requests_requested}}</li>
-  <li><strong>Accepted:</strong> {{requests_accepted}}</li>
-  <li><strong>Done:</strong> {{requests_done}}</li>
-</ul>
-<img src="/static/service_request_summary.png" alt="Service Request Summary" />
+  <h2>Service Request Summary</h2>
+  <ul>
+    <li>
+      <strong>Requested:</strong> {{ requests_requested }}
+    </li>
+    <li>
+      <strong>Accepted:</strong> {{ requests_accepted }}
+    </li>
+    <li>
+      <strong>Done:</strong> {{ requests_done }}
+    </li>
+  </ul>
+  <img src="/static/service_request_summary.png"
+       alt="Service Request Summary" />
 {% endblock content %}

@@ -1,74 +1,52 @@
 {% extends "_base.html" %}
 
-<!-- -->
-{% block title %} Edit Service {% endblock title %}
+{% block title %}
+  Edit Service
+{% endblock title %}
 
-<!-- -->
 {% block content %}
-<style>
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    justify-content: center;
-  }
+  <h1>Edit Service</h1>
 
-  h1 {
-    text-align: center;
-  }
+  <form action="/admin/edit-service/{{ service.id }}" method="post">
+    <div>
+      <label>
+        Name:
+        <input class='form-control'
+               type="text"
+               name="name"
+               value="{{ service.name }}" />
+      </label>
+    </div>
 
-  p {
-    text-align: center;
-    color: red;
-  }
+    <div>
+      <label>
+        Price:
+        <input class='form-control'
+               type="text"
+               name="price"
+               value="{{ service.price }}" />
+      </label>
+    </div>
 
-  form {
-    padding: 20px;
-    border: 2px solid #333;
-    border-radius: 10px;
-  }
+    <div>
+      <label>
+        Category:
+        <select name="service_category_id" class='form-control'>
+          {% for category in service_categories %}
 
-  div {
-    margin-bottom: 10px;
-  }
-</style>
+            {% if category.id==service.service_category_id %}
+              <option value="{{ category.id }}" selected>{{ category.name }}</option>
+            {% else %}
+              <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endif %}
 
-<h1>Edit Service</h1>
+          {% endfor %}
+        </select>
+      </label>
+    </div>
 
-<form action="/admin/edit-service/{{service.id}}" method="post">
-  <div>
-    <label>
-      Name:
-      <input type="text" name="name" value="{{service.name}}" />
-    </label>
-  </div>
-
-  <div>
-    <label>
-      Price:
-      <input type="text" name="price" value="{{service.price}}" />
-    </label>
-  </div>
-
-  <div>
-    <label>
-      Category:
-      <select name="service_category_id">
-        {% for category in service_categories %}
-        <!-- -->
-        {% if category.id==service.service_category_id %}
-        <option value="{{category.id}}" selected>{{category.name}}</option>
-        {% else %}
-        <option value="{{category.id}}">{{category.name}}</option>
-        {% endif %}
-        <!-- -->
-        {% endfor %}
-      </select>
-    </label>
-  </div>
-
-  <div>
-    <input type="submit" value="Edit Service" />
-  </div>
-</form>
-
+    <div>
+      <input class='btn btn-primary w-100' type="submit" value="Edit Service" />
+    </div>
+  </form>
 {% endblock content %}

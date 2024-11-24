@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, request, redirect
 from flask_login import current_user, login_required
 from models import *
+from utils import get_avg_ratings
 
 import matplotlib.pyplot as plt
 import matplotlib
@@ -153,6 +154,20 @@ def customer_edit_profile():
     current_user.pin_code = request.form.get('pin_code')
     db.session.commit()
     return redirect('/customer/profile')
+
+
+# ====== customer-details ======
+
+
+@customer_bp.route('/customer/professional-details/<int:professional_id>')
+@login_required
+def customer_professional_details(professional_id):
+  if current_user.type != 'customer':
+    return 'Forbidden', 403
+  professional = Professional.query.filter_by(id=professional_id).first()
+  return render_template('customer_professional_details.html', professional=professional,
+                         get_avg_ratings=get_avg_ratings)
+
 
 # ====== book-service ======
 

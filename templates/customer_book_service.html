@@ -7,37 +7,6 @@
 
 <!-- -->
 {% block content %}
-  <style>
-      body {
-          font-family: Arial, Helvetica, sans-serif;
-      }
-
-      main {
-          text-align: center;
-      }
-
-      h1 {
-          text-align: center;
-      }
-
-      p {
-          text-align: center;
-          color: red;
-      }
-
-      form {
-          margin: 0 auto;
-          display: inline-block;
-          padding: 20px;
-          border: 2px solid #333;
-          border-radius: 10px;
-      }
-
-      div {
-          margin-bottom: 10px;
-      }
-  </style>
-
   <h1>Book Service</h1>
 
   <form action="/customer/book-service/{{ service_id }}" method="post">

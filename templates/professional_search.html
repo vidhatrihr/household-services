@@ -1,59 +1,39 @@
 {% extends "_base.html" %}
 
-<!-- -->
-{% block title %} Search {% endblock title %}
+{% block title %}
+  Search
+{% endblock title %}
 
-<!-- -->
 {% block content %}
-<style>
-  form {
-    width: 400px;
-    padding: 20px;
-    border: 2px solid #333;
-    border-radius: 10px;
-  }
+  <h1>Welcome to search page</h1>
 
-  form div {
-    margin-bottom: 10px;
-  }
-
-  section {
-    margin-top: 50px;
-    display: flex;
-    gap: 10px;
-    justify-content: space-evenly;
-  }
-</style>
-
-<h1>Welcome to search page</h1>
-
-<section>
-  <form action="/professional/search-results/accepted-requests">
-    <h2>Search Accepted Requests</h2>
-    <div>
-      <label>
-        By Booking Date:
-        <input type="date" name="booking_date" class="form-control" />
-      </label>
-    </div>
-    <div>
-      <label>
-        By Pin Code:
-        <input type="text" name="pin_code" class="form-control" />
-      </label>
-    </div>
-    <div>
-      <label>
-        By Service:
-        <select name="service_id" class="form-control">
-          <option value="" selected>Select a service</option>
-          {% for service in services %}
-          <option value="{{service.id}}">{{service.name}}</option>
-          {% endfor %}
-        </select>
-      </label>
-    </div>
-    <input type="submit" value="Search" class="btn btn-primary w-100" />
-  </form>
-</section>
+  <section>
+    <form action="/professional/search-results/accepted-requests">
+      <h2>Search Accepted Requests</h2>
+      <div>
+        <label>
+          By Booking Date:
+          <input type="date" name="booking_date" class="form-control" />
+        </label>
+      </div>
+      <div>
+        <label>
+          By Pin Code:
+          <input type="text" name="pin_code" class="form-control" />
+        </label>
+      </div>
+      <div>
+        <label>
+          By Service:
+          <select name="service_id" class="form-control">
+            <option value="" selected>Select a service</option>
+            {% for service in services %}
+              <option value="{{ service.id }}">{{ service.name }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+      <input type="submit" value="Search" class="btn btn-primary w-100" />
+    </form>
+  </section>
 {% endblock content %}
