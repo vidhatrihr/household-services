@@ -3,11 +3,15 @@ from models import *
 from flask_login import current_user, login_required
 from datetime import datetime
 from utils import get_avg_ratings
+from werkzeug.security import generate_password_hash
 
+# using 'Agg' backend to make matplotlib work in flask app
+# "AGG backend is for writing to file" (https://stackoverflow.com/questions/4930524/how-can-i-set-the-matplotlib-backend)
 import matplotlib
 from matplotlib import pyplot as plt
 matplotlib.use('Agg')
 
+# blueprint with all `/professional` routes
 professional_bp = Blueprint('professional', __name__)
 
 
@@ -19,6 +23,7 @@ professional_bp = Blueprint('professional', __name__)
 def professional_home():
   if current_user.type != 'professional':
     return 'Forbidden', 403
+
   professional = current_user.professional
   city_id = professional.user.city_id
   category_id = professional.service_category_id
@@ -28,11 +33,16 @@ def professional_home():
       status='accepted'
   ).all()
 
-  requests_available_to_accept = ServiceRequest.query.join(Customer).join(User).filter(
-      User.city_id == city_id,
-      ServiceRequest.service.has(service_category_id=category_id),
-      ServiceRequest.status == 'requested'
-  ).all()
+  requests_available_to_accept = (
+      ServiceRequest.query
+      .join(Customer)
+      .join(User)
+      .filter(
+          User.city_id == city_id,
+          ServiceRequest.service.has(service_category_id=category_id),
+          ServiceRequest.status == 'requested'
+      ).all()
+  )
 
   closed_requests = ServiceRequest.query.filter_by(
       professional_id=professional.id,
@@ -55,7 +65,10 @@ def professional_home():
 def professional_search():
   if current_user.type != 'professional':
     return 'Forbidden', 403
-  services = Service.query.filter_by(service_category=current_user.professional.service_category)
+
+  services = Service.query.filter_by(
+      service_category=current_user.professional.service_category
+  )
   return render_template('professional_search.html', services=services)
 
 
@@ -64,12 +77,18 @@ def professional_search():
 def professional_search_results(search_type):
   if current_user.type != 'professional':
     return 'Forbidden', 403
+
   """ 
+  only 1 `search_type`:
+    1. 'accepted-requests'
+
   example url:
     http://localhost:5000/professional/search-results/services?booking_date=yyyy-mm-dd&pin_code=...&service_id=...
   """
+
   if search_type == 'accepted-requests':
-    # get search parameters from query string in url (booking_date=yyyy-mm-dd&pin_code=...&service_id=...)
+    # get search parameters from query string in url,
+    # (booking_date=yyyy-mm-dd&pin_code=...&service_id=...)
     booking_date = request.args.get('booking_date')
     pin_code = request.args.get('pin_code')
     service_id = request.args.get('service_id')
@@ -78,8 +97,11 @@ def professional_search_results(search_type):
     query = ServiceRequest.query
 
     # apply filters as required
-    query = query.filter(ServiceRequest.status == 'accepted',
-                         ServiceRequest.professional_id == current_user.professional.id)
+    query = query.filter(
+        ServiceRequest.status == 'accepted',
+        ServiceRequest.professional_id == current_user.professional.id
+    )
+
     if booking_date:
       # convert `booking_date str` to `datetime obj`
       y, m, d = map(int, booking_date.split('-'))
@@ -89,9 +111,11 @@ def professional_search_results(search_type):
     if service_id:
       query = query.filter(ServiceRequest.service_id == service_id)
 
-      # fetch all rows
+    # fetch all rows
     service_requests = query.all()
-    return render_template('professional_search_results.html', search_type=search_type, service_requests=service_requests)
+
+    return render_template('professional_search_results.html', search_type=search_type,
+                           service_requests=service_requests)
 
 # ====== summary ======
 
@@ -101,21 +125,32 @@ def professional_search_results(search_type):
 def professional_summary():
   if current_user.type != 'professional':
     return 'Forbidden', 403
+
   stars = {}  # {1: x, ... 5: x}, x is count of requests with that many stars
   for i in range(1, 6):
-    stars[i] = ServiceRequest.query.filter_by(ratings=i, professional=current_user.professional).count()
+    stars[i] = ServiceRequest.query.filter_by(
+        ratings=i, professional=current_user.professional
+    ).count()
   total_stars = sum(stars.values())
 
   requests_requested = ServiceRequest.query.filter_by(
-      status='requested', professional=current_user.professional).count()
-  requests_accepted = ServiceRequest.query.filter_by(status='accepted', professional=current_user.professional).count()
-  requests_done = ServiceRequest.query.filter_by(status='done', professional=current_user.professional).count()
+      status='requested', professional=current_user.professional
+  ).count()
+
+  requests_accepted = ServiceRequest.query.filter_by(
+      status='accepted', professional=current_user.professional
+  ).count()
+
+  requests_done = ServiceRequest.query.filter_by(
+      status='done', professional=current_user.professional
+  ).count()
 
   if total_stars > 0:
     """ generate ratings pie chart """
     labels = [f'{i} Star' for i in range(1, 6)]
     data = [stars[i] for i in range(1, 6)]
-    plt.pie(data, labels=labels, autopct='%1.2f%%')
+    # https://stackoverflow.com/questions/6170246/how-do-i-use-matplotlib-autopct
+    plt.pie(data, labels=labels, autopct=lambda p: f'{p:.2f}%')
     plt.title('Overall Customer Ratings')
     plt.savefig('static/overall_customer_ratings.png')
     plt.close()
@@ -144,7 +179,9 @@ def professional_summary():
 def professional_profile():
   if current_user.type != 'professional':
     return 'Forbidden', 403
-  return render_template('professional_profile.html', professional=current_user.professional,
+
+  return render_template('professional_profile.html',
+                         professional=current_user.professional,
                          get_avg_ratings=get_avg_ratings)
 
 
@@ -153,12 +190,18 @@ def professional_profile():
 def professional_edit_profile():
   if current_user.type != 'professional':
     return 'Forbidden', 403
+
   if request.method == 'GET':
-    cities = City.query.all()
-    service_categories = ServiceCategory.query.all()
-    return render_template('professional_edit_profile.html', professional=current_user.professional,
-                           get_avg_ratings=get_avg_ratings, cities=cities, service_categories=service_categories)
+    cities = City.query.all()  # for dropdown
+    service_categories = ServiceCategory.query.all()  # for dropdown
+    return render_template('professional_edit_profile.html',
+                           professional=current_user.professional,
+                           service_categories=service_categories,
+                           cities=cities,
+                           get_avg_ratings=get_avg_ratings)
+
   elif request.method == 'POST':
+    # update attributes
     current_user.email = request.form.get('email')
     current_user.full_name = request.form.get('full_name')
     current_user.city_id = request.form.get('city_id')
@@ -166,6 +209,11 @@ def professional_edit_profile():
     current_user.pin_code = request.form.get('pin_code')
     current_user.professional.bio = request.form.get('bio')
     current_user.professional.service_category_id = request.form.get('service_category_id')
+
+    # if password is given, hash and update it ✅
+    if request.form.get('password'):
+      current_user.password = generate_password_hash(request.form.get('password'))
+
     db.session.commit()
     return redirect('/professional/profile')
 
@@ -178,7 +226,9 @@ def professional_edit_profile():
 def professional_customer_details(customer_id):
   if current_user.type != 'professional':
     return 'Forbidden', 403
+
   customer = Customer.query.filter_by(id=customer_id).first()
+
   return render_template('professional_customer_details.html', customer=customer)
 
 
@@ -190,8 +240,10 @@ def professional_customer_details(customer_id):
 def professional_accept_request(request_id):
   if current_user.type != 'professional':
     return 'Forbidden', 403
+
   request = ServiceRequest.query.filter_by(id=request_id).first()
   request.status = 'accepted'
   request.professional = current_user.professional
+
   db.session.commit()
   return redirect('/')

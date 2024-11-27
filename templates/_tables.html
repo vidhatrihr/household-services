@@ -1,4 +1,4 @@
-{% macro services_table(services, can_actions=False) %}
+{% macro services_table(services, can_actions=False, can_book=False) %}
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <tr>
@@ -6,12 +6,16 @@
         <th>Name</th>
         <th>Category</th>
         <th>Price</th>
-        {% if can_actions %}<th>Actions</th>{% endif %}
+        {% if can_actions or can_book %}<th>Actions</th>{% endif %}
       </tr>
       {% for service in services %}
         <tr>
           <td>
-            <a href="/admin/service-details/{{ service.id }}">{{ service.id }} ↪</a>
+            {% if can_actions %}
+              <a href="/admin/service-details/{{ service.id }}">{{ service.id }} ↪</a>
+            {% else %}
+              {{ service.id }}
+            {% endif %}
           </td>
           <td>{{ service.name }}</td>
           <td>{{ service.service_category.name }}</td>
@@ -20,6 +24,11 @@
             <td>
               <a href="/admin/edit-service/{{ service.id }}">Edit</a>
               <a href="/admin/delete-service/{{ service.id }}">Delete</a>
+            </td>
+          {% endif %}
+          {% if can_book %}
+            <td>
+              <a href="/customer/book-service/{{ service.id }}">Book</a>
             </td>
           {% endif %}
         </tr>

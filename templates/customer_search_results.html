@@ -16,7 +16,7 @@
   {% if search_type == 'services' %}
     <section>
       <h2>Services</h2>
-      {{ tables.services_table(services) }}
+      {{ tables.services_table(services, can_book=True) }}
     </section>
   {% else %}
 

@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, request, redirect
 from flask_login import login_required, current_user
 from models import *
-from utils import *
+from utils import get_avg_ratings
 
 # using 'Agg' backend to make matplotlib work in flask app
+# "AGG backend is for writing to file" (https://stackoverflow.com/questions/4930524/how-can-i-set-the-matplotlib-backend)
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use("Agg")
@@ -20,6 +21,7 @@ admin_bp = Blueprint('admin', __name__)
 def admin_home():
   if current_user.type != 'admin':
     return 'Forbidden', 403
+
   services = Service.query.all()
   professionals = Professional.query.all()
   customers = Customer.query.all()
@@ -40,6 +42,7 @@ def admin_home():
 def admin_search():
   if current_user.type != 'admin':
     return 'Forbidden', 403
+
   return render_template('admin_search.html')
 
 
@@ -49,30 +52,40 @@ def admin_search_results(search_type):
   if current_user.type != 'admin':
     return 'Forbidden', 403
   """ 
+  two `search_type`:
+    1. customers
+    2. professionals
+
   example urls:
     http://localhost:5000/admin/search-results/customers?full_name=...&pin_code=...
     http://localhost:5000/admin/search-results/professionals?full_name=...&pin_code=...
   """
+
   # get search parameters from query string in url (?full_name=...&pin_code=...)
   full_name = request.args.get('full_name')
   pin_code = request.args.get('pin_code')
 
   if search_type == 'customers':
     query = Customer.query.join(User)
+
+    # do filter if full_name is provided
     if full_name:
-      # do filter if full_name is provided
       query = query.filter(User.full_name.ilike(f'%{full_name}%'))  # partially match full_name
+
+    # do filter if pin_code is provided
     if pin_code:
-      # do filter if pin_code is provided
       query = query.filter(User.pin_code == pin_code)
 
     customers = query.all()
-    return render_template('admin_search_results.html', customers=customers, search_type=search_type)
+    return render_template('admin_search_results.html', customers=customers,
+                           search_type=search_type)
 
   elif search_type == 'professionals':
     query = Professional.query.join(User)
+
     if full_name:
       query = query.filter(User.full_name.ilike(f'%{full_name}%'))
+
     if pin_code:
       query = query.filter(User.pin_code == pin_code)
 
@@ -89,6 +102,7 @@ def admin_search_results(search_type):
 def admin_summary():
   if current_user.type != 'admin':
     return 'Forbidden', 403
+
   stars = {}  # {1: x, ... 5: x}, x is count of requests with that many stars
   for i in range(1, 6):
     stars[i] = ServiceRequest.query.filter_by(ratings=i).count()
@@ -102,7 +116,8 @@ def admin_summary():
     """ generate ratings pie chart """
     labels = [f'{i} Star' for i in range(1, 6)]
     data = [stars[i] for i in range(1, 6)]
-    plt.pie(data, labels=labels, autopct='%1.2f%%')
+    # https://stackoverflow.com/questions/6170246/how-do-i-use-matplotlib-autopct
+    plt.pie(data, labels=labels, autopct=lambda p: f'{p:.2f}%')
     plt.title('Overall Customer Ratings')
     plt.savefig('static/overall_customer_ratings.png')
     plt.close()
@@ -131,6 +146,7 @@ def admin_summary():
 def admin_service_details(service_id):
   if current_user.type != 'admin':
     return 'Forbidden', 403
+
   service = Service.query.filter_by(id=service_id).first()
   return render_template('admin_service_details.html', service=service)
 
@@ -140,6 +156,7 @@ def admin_service_details(service_id):
 def admin_customer_details(customer_id):
   if current_user.type != 'admin':
     return 'Forbidden', 403
+
   customer = Customer.query.filter_by(id=customer_id).first()
   return render_template('admin_customer_details.html', customer=customer)
 
@@ -149,11 +166,10 @@ def admin_customer_details(customer_id):
 def admin_professional_details(professional_id):
   if current_user.type != 'admin':
     return 'Forbidden', 403
+
   professional = Professional.query.filter_by(id=professional_id).first()
-  return render_template(
-      'admin_professional_details.html',
-      professional=professional, get_avg_ratings=get_avg_ratings
-  )
+  return render_template('admin_professional_details.html',
+                         professional=professional, get_avg_ratings=get_avg_ratings)
 
 
 # ========== approve/block/delete professional ==========
@@ -164,8 +180,9 @@ def admin_professional_details(professional_id):
 def approve_professional(professional_id):
   if current_user.type != 'admin':
     return 'Forbidden', 403
+
   professional = Professional.query.filter_by(id=professional_id).first()
-  professional.is_approved = True  # set true will update in professionals table
+  professional.is_approved = True
   db.session.commit()
   return redirect('/admin/home')
 
@@ -175,6 +192,7 @@ def approve_professional(professional_id):
 def block_professional(professional_id):
   if current_user.type != 'admin':
     return 'Forbidden', 403
+
   professional = Professional.query.filter_by(id=professional_id).first()
   professional.is_approved = False
   db.session.commit()
@@ -186,6 +204,7 @@ def block_professional(professional_id):
 def delete_professional(professional_id):
   if current_user.type != 'admin':
     return 'Forbidden', 403
+
   professional = Professional.query.filter_by(id=professional_id).first()
   db.session.delete(professional)
   db.session.commit()
@@ -200,6 +219,7 @@ def delete_professional(professional_id):
 def add_service():
   if current_user.type != 'admin':
     return 'Forbidden', 403
+
   if request.method == 'GET':
     service_categories = ServiceCategory.query.all()
     return render_template('admin_add_service.html', service_categories=service_categories)
@@ -220,14 +240,17 @@ def add_service():
 def edit_service(service_id):
   if current_user.type != 'admin':
     return 'Forbidden', 403
+
   # get `service object` for <int:service_id> path variable
   service = Service.query.filter_by(id=service_id).first()
 
   if request.method == 'GET':
     service_categories = ServiceCategory.query.all()
-    return render_template('admin_edit_service.html', service=service, service_categories=service_categories)
+    return render_template('admin_edit_service.html',
+                           service=service, service_categories=service_categories)
 
   elif request.method == 'POST':
+    # update attributes of that `service object`
     service.name = request.form.get('name')
     service.price = request.form.get('price')
     service.service_category_id = request.form.get('service_category_id')
@@ -240,7 +263,8 @@ def edit_service(service_id):
 def delete_service(service_id):
   if current_user.type != 'admin':
     return 'Forbidden', 403
-  # get the `service object`
+
+  # get `service object` for <int:service_id> path variable
   service = Service.query.filter_by(id=service_id).first()
 
   # delete that object

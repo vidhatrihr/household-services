@@ -1,13 +1,17 @@
-from datetime import datetime
 from flask import Blueprint, render_template, request, redirect
 from flask_login import current_user, login_required
-from models import *
+from werkzeug.security import generate_password_hash
 from utils import get_avg_ratings
+from datetime import datetime
+from models import *
 
+# using 'Agg' backend to make matplotlib work in flask app
+# "AGG backend is for writing to file" (https://stackoverflow.com/questions/4930524/how-can-i-set-the-matplotlib-backend)
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
 
+# blueprint with all `/customer` routes
 customer_bp = Blueprint('customer', __name__)
 
 
@@ -19,6 +23,7 @@ customer_bp = Blueprint('customer', __name__)
 def customer_home():
   if current_user.type != 'customer':
     return 'Forbidden', 403
+
   customer_id = current_user.customer.id
 
   accepted_requests = ServiceRequest.query.filter_by(
@@ -37,24 +42,18 @@ def customer_home():
   ).all()
 
   all_categories = ServiceCategory.query.all()
-  """ if we need to show only those categories from customer's city """
-  categories_in_same_city = []
-  for category in all_categories:
-    # should we include this category?
-    # we can include if we find a professional in this category from customer's city
-    # we do check all professionals of this category one by one
-    for professional in category.professionals:
-      if professional.user.city == current_user.city:
-        # we found such a professional
-        categories_in_same_city.append(category)
-        break
+  """ 🤔 find all categories with professionals in the current user's city """
+  categories_in_same_city = (db.session.query(ServiceCategory)
+                             .join(Professional)
+                             .join(User)
+                             .filter(User.city_id == current_user.city_id).all())
 
   return render_template(
       'customer_home.html',
       accepted_requests=accepted_requests,
       pending_requests=pending_requests,
       past_requests=past_requests,
-      categories=all_categories  # can do `categories_in_same_city`
+      categories=all_categories  # ✅ can do `categories_in_same_city`
   )
 
 
@@ -66,6 +65,7 @@ def customer_home():
 def customer_search():
   if current_user.type != 'customer':
     return 'Forbidden', 403
+
   return render_template('customer_search.html')
 
 
@@ -74,6 +74,7 @@ def customer_search():
 def customer_search_results(search_type):
   if current_user.type != 'customer':
     return 'Forbidden', 403
+
   """ 
   example url:
     http://localhost:5000/customer/search-results/services?name=...
@@ -81,12 +82,17 @@ def customer_search_results(search_type):
   if search_type == 'services':
     # get search parameters from query string in url (?name=...)
     name = request.args.get('name')
-    # do query
+
+    # do empty query
     query = Service.query
+
+    # if name is given, apply filter
     if name:
       query = query.filter(Service.name.ilike(f'%{name}%'))
-    services = query.all()
-    return render_template('customer_search_results.html', services=services, search_type=search_type)
+
+    services = query.all()  # get all rows/objects
+    return render_template('customer_search_results.html',
+                           services=services, search_type=search_type)
 
 
 # ====== summary ======
@@ -97,6 +103,7 @@ def customer_search_results(search_type):
 def customer_summary():
   if current_user.type != 'customer':
     return 'Forbidden', 403
+
   requests_requested = ServiceRequest.query.filter_by(
       customer_id=current_user.customer.id,
       status='requested'
@@ -135,6 +142,7 @@ def customer_summary():
 def customer_profile():
   if current_user.type != 'customer':
     return 'Forbidden', 403
+
   return render_template('customer_profile.html', customer=current_user.customer)
 
 
@@ -143,15 +151,25 @@ def customer_profile():
 def customer_edit_profile():
   if current_user.type != 'customer':
     return 'Forbidden', 403
+
   if request.method == 'GET':
     cities = City.query.all()
-    return render_template('customer_edit_profile.html', customer=current_user.customer, cities=cities)
+    return render_template('customer_edit_profile.html',
+                           customer=current_user.customer, cities=cities)
+
   elif request.method == 'POST':
+    # update attributes
     current_user.email = request.form.get('email')
     current_user.full_name = request.form.get('full_name')
     current_user.city_id = request.form.get('city_id')
     current_user.address = request.form.get('address')
     current_user.pin_code = request.form.get('pin_code')
+
+    # if password is given, update after hashing it
+    if request.form.get('password'):
+      current_user.password = generate_password_hash(request.form.get('password'))
+
+    # commit() will save all chanegs to db
     db.session.commit()
     return redirect('/customer/profile')
 
@@ -164,7 +182,9 @@ def customer_edit_profile():
 def customer_professional_details(professional_id):
   if current_user.type != 'customer':
     return 'Forbidden', 403
+
   professional = Professional.query.filter_by(id=professional_id).first()
+
   return render_template('customer_professional_details.html', professional=professional,
                          get_avg_ratings=get_avg_ratings)
 
@@ -177,12 +197,15 @@ def customer_professional_details(professional_id):
 def customer_book_service(service_id):
   if current_user.type != 'customer':
     return 'Forbidden', 403
+
   if request.method == 'GET':
     return render_template('customer_book_service.html', service_id=service_id)
 
   elif request.method == 'POST':
     customer_id = current_user.customer.id
-    booking_date = datetime.strptime(request.form.get('booking_date'), '%Y-%m-%d')
+    # convert `booking_date str` to `datetime obj`
+    y, m, d = map(int, request.form.get('booking_date').split('-'))
+    booking_date = datetime(y, m, d)
     new_service_request = ServiceRequest(
         customer_id=customer_id,
         service_id=service_id,
@@ -202,6 +225,7 @@ def customer_book_service(service_id):
 def customer_close_request(request_id):
   if current_user.type != 'customer':
     return 'Forbidden', 403
+
   if request.method == 'GET':
     return render_template('customer_close_request.html', request_id=request_id)
 

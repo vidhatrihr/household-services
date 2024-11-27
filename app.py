@@ -8,7 +8,7 @@ import populate_db
 def create_app():
   # make app
   app = Flask(__name__)
-  app.secret_key = '12345'
+  app.secret_key = '12345'  # for flask-login sessions
 
   # register blueprints
   app.register_blueprint(root_bp)
@@ -24,7 +24,7 @@ def create_app():
   # make tables and populate
   with app.app_context():
     db.create_all()  # create all tables
-    if Customer.query.count() == 0:  # check if no data in db
+    if Customer.query.count() == 0:  # no customers means no data in db, so we populate
       populate_db.populate()
 
   # setup flask login

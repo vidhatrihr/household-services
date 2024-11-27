@@ -16,20 +16,20 @@ def login():
     return redirect('/')
 
   if request.method == 'GET':
-    # error=False: if error is true, an error message will be shown
+    # if error is True, an error message will be shown
     return render_template('login.html', error=False)
 
   elif request.method == 'POST':
     email = request.form.get('email')
     password = request.form.get('password')
     user = User.query.filter_by(email=email).first()
-
-    # user.password is coming from db and is hashed
-    # to be valid user it's password and email should match
+    # user.password is coming from db and is hashed;
+    # check user exists, and password matches
     if user and check_password_hash(user.password, password):
-      login_user(user)
-      return redirect('/')
-    return render_template('login.html', error=True)
+      login_user(user)  # do login
+      return redirect('/')  # send to root; and root will redirect to dashboard
+    else:
+      return render_template('login.html', error=True)  # invalid email/password
 
 
 # ======== logout ========
@@ -47,7 +47,7 @@ def logout():
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
   if request.method == 'GET':
-    cities = City.query.all()
+    cities = City.query.all()  # for cities dropdown
     return render_template('register.html', cities=cities)
 
   elif request.method == 'POST':
@@ -64,8 +64,10 @@ def register():
     )
     db.session.add(new_customer)
     db.session.commit()
+
+    # do login after register
     login_user(new_customer.user)  # this function expects a user obj not a customer obj
-    return redirect('/customer/home')
+    return redirect('/customer/home')  # send to dashboard
 
 
 # ======== register professional ========
@@ -74,9 +76,11 @@ def register():
 @auth_bp.route('/register/professional', methods=['GET', 'POST'])
 def register_professional():
   if request.method == 'GET':
-    cities = City.query.all()
-    service_categories = ServiceCategory.query.all()
-    return render_template('register_professional.html', cities=cities, service_categories=service_categories)
+    cities = City.query.all()  # for dropdown
+    service_categories = ServiceCategory.query.all()  # for dropdown
+    return render_template('register_professional.html',
+                           cities=cities,
+                           service_categories=service_categories)
 
   elif request.method == 'POST':
     new_professional = Professional(
@@ -84,6 +88,7 @@ def register_professional():
         bio=request.form.get('bio'),
         user=User(
             email=request.form.get('email'),
+            # saving hashed password to db 👇✅
             password=generate_password_hash(request.form.get('password')),
             type='professional',
             full_name=request.form.get('full_name'),
@@ -94,5 +99,7 @@ def register_professional():
     )
     db.session.add(new_professional)
     db.session.commit()
+
+    # do login after register
     login_user(new_professional.user)
-    return redirect('/professional/home')
+    return redirect('/professional/home')  # send to dashboard
