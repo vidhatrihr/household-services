@@ -51,7 +51,7 @@ def populate():
           type='customer',
           full_name='Charan Kumar',
           address='Xyz Address',
-          pin_code='123454',
+          pin_code='123456',
           city_id=2
       )
   ))
@@ -62,7 +62,7 @@ def populate():
           type='customer',
           full_name='Chirag Chopra',
           address='Xyz Address',
-          pin_code='123453',
+          pin_code='123455',
           city_id=2
       )
   ))
@@ -162,25 +162,38 @@ def populate():
       customer_id=1,
       professional_id=1,
       service_id=1,
-      booking_date=datetime(2025, 1, 10),
+      booking_date=datetime(2025, 1, 15),
+      status='accepted'
+  ))
+  db.session.add(ServiceRequest(
+      customer_id=1,
+      professional_id=1,
+      service_id=2,
+      booking_date=datetime(2025, 1, 16),
+      status='accepted'
+  ))
+  db.session.add(ServiceRequest(
+      customer_id=1,
+      professional_id=2,
+      service_id=4,
+      booking_date=datetime(2025, 1, 17),
       status='accepted'
   ))
   db.session.add(ServiceRequest(
       customer_id=2,
       professional_id=1,
-      service_id=2,
+      service_id=3,
       booking_date=datetime(2025, 1, 15),
-      status='accepted'
-  ))
-  db.session.add(ServiceRequest(
-      customer_id=2,
-      professional_id=2,
-      service_id=4,
-      booking_date=datetime(2025, 1, 20),
       status='accepted'
   ))
 
   # Mumbai (requested)
+  db.session.add(ServiceRequest(
+      customer_id=1,
+      service_id=2,
+      booking_date=datetime(2024, 12, 1),
+      status='requested'
+  ))
   db.session.add(ServiceRequest(
       customer_id=1,
       service_id=3,
@@ -188,26 +201,40 @@ def populate():
       status='requested'
   ))
   db.session.add(ServiceRequest(
+      customer_id=1,
+      service_id=5,
+      booking_date=datetime(2024, 12, 1),
+      status='requested'
+  ))
+  db.session.add(ServiceRequest(
       customer_id=2,
       service_id=5,
-      booking_date=datetime(2024, 12, 10),
+      booking_date=datetime(2024, 12, 2),
       status='requested'
   ))
 
   # Mumbai (done)
   db.session.add(ServiceRequest(
-      customer_id=2,
+      customer_id=1,
       professional_id=1,
       service_id=1,
-      booking_date=datetime(2024, 12, 1),
+      booking_date=datetime(2024, 11, 1),
       status='done',
       ratings=5
   ))
   db.session.add(ServiceRequest(
       customer_id=1,
+      professional_id=1,
+      service_id=2,
+      booking_date=datetime(2024, 11, 1),
+      status='done',
+      ratings=5
+  ))
+  db.session.add(ServiceRequest(
+      customer_id=2,
       professional_id=2,
       service_id=6,
-      booking_date=datetime(2024, 12, 10),
+      booking_date=datetime(2024, 11, 2),
       status='done',
       ratings=4
   ))
