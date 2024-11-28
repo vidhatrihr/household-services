@@ -153,13 +153,23 @@
           <td>{{ request.remarks }}</td>
 
           {% if can_accept %}
-            <td>
-              <a href="/professional/accept-request/{{ request.id }}">Accept</a>
-            </td>
+            {% if request.status == 'requested' %}
+              <td>
+                <a href="/professional/accept-request/{{ request.id }}">Accept</a>
+              </td>
+            {% else %}
+              <td>No actions</td>
+            {% endif %}
+
           {% elif can_close %}
-            <td>
-              <a href="/customer/close-request/{{ request.id }}">Close</a>
-            </td>
+            {% if request.status == 'accepted' %}
+              <td>
+                <a href="/customer/close-request/{{ request.id }}">Close</a>
+              </td>
+            {% else %}
+              <td>No actions</td>
+            {% endif %}
+
           {% endif %}
         </tr>
       {% endfor %}
