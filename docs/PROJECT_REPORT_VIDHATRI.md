@@ -24,6 +24,18 @@ Features include login, registration, CRUD operations, and a user-friendly UI.
 5. Initialize the database, populate sample data, and set up `flask-login`.
 6. Implement core features in stages: login, register, and admin, followed by professional and customer features.
 7. Test all functionalities thoroughly.
+8. Deploy online on Railway.app platform.
+
+---
+
+**Live Demo**  
+[https://household-services-production.up.railway.app](https://household-services-production.up.railway.app)
+
+Accounts:
+
+- **Admin**: `admin1@example.com`, Password: `GgJI0lQ4X`
+- **Customer**: `customer1@example.com`, Password: `12345`
+- **Professional**: `professional1@example.com`, Password: `12345`
 
 ---
 
@@ -101,7 +113,7 @@ Features include login, registration, CRUD operations, and a user-friendly UI.
 
 ## Database Models
 
-![household_services.png](household_services.png)
+![household_services.png](./er_diagram_pony.png)
 
 1. **User**: Represents all users in the system.
 2. **City**: Represents cities linked to users.
@@ -123,3 +135,10 @@ Features include login, registration, CRUD operations, and a user-friendly UI.
 - **`docs/`**: Documentation, ER diagrams, and development notes.
 
 ---
+
+## Running the App
+
+1. Create a virtual environment: `python -m venv venv`.
+2. Activate the venv: `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows).
+3. Install dependencies: `pip install -r requirements.txt`.
+4. Run the app: `python app.py`.
