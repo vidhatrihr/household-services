@@ -8,7 +8,7 @@ import populate_db
 def create_app():
   # make app
   app = Flask(__name__)
-  app.secret_key = '12345'  # for flask-login sessions
+  app.secret_key = 'yiQH6QrME'  # for flask-login sessions
 
   # register blueprints
   app.register_blueprint(root_bp)

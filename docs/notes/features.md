@@ -33,7 +33,6 @@
 
   - ✅ view all customers
   - ✅ view (details + all requests) of a specific customer
-  - ⌛ approve/block a specific customer
 
 - 📑 service requests table
 
@@ -45,15 +44,11 @@
 
   - ✅ by full name (partially match)
   - ✅ by pin code
-  - ⌛ by city (select a city)
-  - ⌛ by professional id (# of professional, send to `/admin/professional-details/#`)
 
 - search customers
 
   - ✅ by full name (partially match)
   - ✅ by pin code
-  - ⌛ by city (select a city)
-  - ⌛ by professional id (# of professional, send to `/admin/customer-details/#`)
 
 ### `/admin/summary`
 
@@ -67,33 +62,22 @@
   - ✅ how many requested? 150, accepted? 100, done? 300
   - ✅ bar chart
 
-- other statistics
-
-  - ⌛ total customers/professionals on platform
-  - ⌛ total professionals per category
-  - ⌛ total requests per services
-  - ⌛ etc.
-
 ### details pages
 
 - `/admin/service-details/#`
 
   - ✅ info about the service
   - ✅ all requests of that service
-  - ⌛ show 3 tables for all requests (requested, accepted, done)
-  - ⌛ links to edit/delete that service
 
 - `/admin/professional-details/#`
 
   - ✅ info about the professional
   - ✅ all requests of that professional
-  - ⌛ maybe show 3 tables for all requests (requested, accepted, done)
 
 - `/admin/customer-details/#`
 
   - ✅ info about the customer
   - ✅ all requests of that customer
-  - ⌛ maybe show 3 tables for all requests (requested, accepted, done)
 
 ### add/edit/delete a service
 
@@ -102,20 +86,9 @@
 
 ### approve/block/delete a professional
 
-- ⌛ cascade on delete?
-
 ## professional_bp
 
 ### `/professional/home`
-
-- ⌛ not show `professional id` col in all tables
-
-- ⌛ show `booking date` col in all tables
-
-- ⌛ link to customer details
-
-  - ⚠️ `/admin/customer-details/#`
-  - 👍 `/professional/customer-details/#`
 
 - 📑 accepted requests: table
 
@@ -140,26 +113,17 @@
 
 - overall customer ratings
 
-  - ⌛ 5 stars? 60%, 4 stars? 20%, ...
-  - ⌛ pie chart
+  - ✅ 5 stars? 60%, 4 stars? 20%, ...
+  - ✅ pie chart
 
 - service requests summary
 
-  - ⌛ how many requested? 150, accepted? 100, done? 300
-  - ⌛ bar chart
+  - ✅ how many requested? 150, accepted? 100, done? 300
+  - ✅ bar chart
 
 ## customer_bp
 
 ### `/customer/home`
-
-- ⌛ not show `customer id` col in all tables
-
-- ⌛ show `booking date` col in all tables
-
-- ⌛ link to professional details
-
-  - ⚠️ `/admin/professional-details/#`
-  - 👍 `/customer/professional-details/#`
 
 - 📑 accepted requests: table
 
@@ -168,7 +132,6 @@
 - 📑 requests yet to be accepted: table
 
   - ✅ view all requests (which not yet accepted) sent by customer
-  - ⌛ link to cancel a request
 
 - 📑 closed requests: table
 
@@ -177,8 +140,6 @@
 - search services
 
   - ✅ by name
-  - ⚠️ by pin code
-  - ⌛ by category
 
 ### `/customer/summary`
 

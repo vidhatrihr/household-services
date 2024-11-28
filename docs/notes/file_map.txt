@@ -1,3 +1,5 @@
+⚠️ Obsolete mind map
+
 │ app.py
 │ LICENSE
 │ README.md

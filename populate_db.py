@@ -12,7 +12,7 @@ def populate():
   db.session.add(Admin(
       user=User(
           email='admin1@example.com',
-          password=generate_password_hash('12345'),
+          password=generate_password_hash('GgJI0lQ4X'),
           type='admin',
           full_name='admin',
           address='Xyz Address',
