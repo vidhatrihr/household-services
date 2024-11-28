@@ -39,21 +39,10 @@ Accounts:
 
 ---
 
-## Libraries
+## Libraries and Tools
 
-- Flask (core framework).
-- Flask-SQLAlchemy (SQLite database).
-- Flask-Login (authentication).
-- Werkzeug (password hashing).
-- Matplotlib (for charts).
-- Bootstrap CSS (for UI).
-
----
-
-## Tools
-
-- Pony ORM Editor (ER diagrams).
-- Excalidraw (diagrams).
+- **Libraries**: Flask, Flask-SQLAlchemy, Flask-Login, Werkzeug, Matplotlib, Bootstrap CSS.
+- **Tools**: Pony ORM Editor (ER diagrams), Excalidraw (diagrams).
 
 ---
 
@@ -107,7 +96,7 @@ Accounts:
 
 ### Root Blueprint (`root_bp`)
 
-- Root blueprint is used for landing pages, error pages, and any general-purpose routes.
+- Redirecting authenticated users to their respective dashboards.
 
 ---
 
