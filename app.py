@@ -18,7 +18,7 @@ def create_app():
   app.register_blueprint(professional_bp)
 
   # setup database
-  app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'
+  app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
   db.init_app(app)
 
   # make tables and populate
