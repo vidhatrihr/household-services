@@ -105,7 +105,9 @@
   </div>
 {% endmacro %}
 
-{% macro service_requests_table(service_requests, can_accept=False, can_close=False) %}
+{% macro service_requests_table(
+  service_requests, can_accept=False, can_close=False, can_cancel=False
+  ) %}
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <tr>
@@ -123,7 +125,7 @@
         <th>Status</th>
         <th>Ratings</th>
         <th>Remarks</th>
-        {% if can_accept or can_close %}<th>Actions</th>{% endif %}
+        {% if can_accept or can_close or can_cancel %}<th>Actions</th>{% endif %}
       </tr>
       {% for request in service_requests %}
         <tr>
@@ -165,6 +167,15 @@
             {% if request.status == 'accepted' %}
               <td>
                 <a href="/customer/close-request/{{ request.id }}">Close</a>
+              </td>
+            {% else %}
+              <td>No actions</td>
+            {% endif %}
+
+          {% elif can_cancel %}
+            {% if request.status == 'requested' %}
+              <td>
+                <a href="/customer/cancel-request/{{ request.id }}">Cancel</a>
               </td>
             {% else %}
               <td>No actions</td>

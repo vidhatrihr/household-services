@@ -21,6 +21,17 @@ def login():
 
   elif request.method == 'POST':
     email = request.form.get('email')
+
+    # BACKEND VALIDATION
+    # if len(email) > 10:
+    #   return 'BAD REQUEST', 400
+
+    # if '@' not in email:
+    #   return 'BAD REQUEST', 400
+
+    # if email[0] != 'r':
+    #   return 'BAD REQUEST', 400
+
     password = request.form.get('password')
     user = User.query.filter_by(email=email).first()
     # user.password is coming from db and is hashed;

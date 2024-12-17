@@ -37,7 +37,7 @@
 
   <section>
     <h2>Requests yet to be accepted:</h2>
-    {{ tables.service_requests_table(pending_requests) }}
+    {{ tables.service_requests_table(pending_requests, can_cancel=True) }}
   </section>
 
   <section>

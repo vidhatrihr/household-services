@@ -1,0 +1,59 @@
+Filter_by
+      .filter_by(status=done, ratings=4)
+      👉 Check (=) columns of same entity
+
+Filter
+      .filter(Req.status==done, Req.ratings>=4)
+      👉 Compare (==, >= etc) columns of many entities
+      👉 Perfect for join
+
+
+# Theory Topics
+
+- Bootstrap
+- Rest API
+- CRUD, HTTP methods
+- ORM
+- Git
+- Stateless
+- Session
+- Decorator
+- Matplotlib - graphs code
+- Security mechanism
+- Werkzeug.security why?
+
+
+
+# Questions
+
+- Truncate vs delete
+- Validation vs verification
+- Types of storage
+- Show MVC in code
+- Limit the username input to less than 10
+- 2 layer and 3 layer protocol
+- HTTP vs HTTPS
+- Reset forms
+- Template inheritance (_base.html is extended by other templates)
+- Version control system (Git), another name for it?
+- Structured (SQL) and unstructured (NoSQL) database
+- Why SQL is so verbose?
+- Types of constraints in SQL (unique, nullable, primary key, foreign key)
+- Flask advantages and disadvantages (routes, process request form/args vars, redirect, render templates)
+- Authentication vs authorization
+- Move nav bar to the footer
+- Front end and back end validation, which is more important.
+- Lambda fn
+- CSS priority order
+- Backref
+- Distributed vs client-server
+- LoginManager()?
+- Hash password?
+- Why SQLite?
+- Create a clear button in the login page upon click which the username and password will reset.
+- List and tuple
+- What is mutable and immutable.
+- Primary key and foreign key
+- Have you implemented role-based access control?
+- Can we change port number using the code?
+- Client vs server side data validation.

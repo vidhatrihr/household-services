@@ -236,3 +236,17 @@ def customer_close_request(request_id):
     service_request.remarks = request.form.get('remarks')
     db.session.commit()
     return redirect('/')
+
+
+# ====== cancel-request ======
+
+@customer_bp.route('/customer/cancel-request/<int:request_id>')
+@login_required
+def customer_cancel_request(request_id):
+  if current_user.type != 'customer':
+    return 'Forbidden', 403
+
+  service_request = ServiceRequest.query.filter_by(id=request_id).first()
+  db.session.delete(service_request)
+  db.session.commit()
+  return redirect('/customer/home')
